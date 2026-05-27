@@ -475,26 +475,20 @@ body {
   margin-top: 16px;
 }
 
-.hero-image {
-  width: 65%;
-  max-width: 280px;
-  height: auto;
-  object-fit: contain;
-  object-position: top center;
-  display: block;
-  align-self: center;
-  flex-shrink: 0;
-  animation: pulseGlow 3s ease-in-out infinite;
-  will-change: filter;
+.hero-video-wrapper {
+  width: 100%;
+  height: 240px;
+  margin: 16px 0 0 0;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 4px rgba(244, 71, 134, 0.5));
-  }
-  50% {
-    filter: drop-shadow(0 0 8px rgba(244, 71, 134, 0.7)) drop-shadow(0 0 14px rgba(244, 71, 134, 0.3));
-  }
+.hero-video-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.05);
 }
 
 .hero-text {

@@ -9,8 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <!-- Preload LCP image -->
-  <link rel="preload" as="image" href="assets/salesman.png" fetchpriority="high" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link
@@ -54,10 +52,8 @@
 
     <!-- Body -->
     <div class="app-content">
-
       <!-- Viewport 1: Hero -->
       <div class="viewport-screen vp1-hero">
-
         <!-- Hamburger -->
         <div class="hamburger-btn" id="hamburger" aria-label="Open menu">
           <span></span>
@@ -65,9 +61,12 @@
           <span></span>
         </div>
 
-        <!-- Hero Body: image + text grouped -->
+        <div class="hero-video-wrapper">
+          <video src="assets/intro.mp4" class="hero-video-banner" autoplay loop muted playsinline preload="auto"></video>
+        </div>
+
+        <!-- Hero Body: text grouped -->
         <div class="hero-body">
-          <img src="assets/salesman.png" class="hero-image" alt="Salesman" width="280" height="336" fetchpriority="high" decoding="sync" />
           <div class="hero-text">
             <h1 class="hero-heading">Season 1<br>Welcomes YOU</h1>
             <p class="hero-sub">Join thousands of players and turn every spin into real USDT rewards — instantly.</p>
