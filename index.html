@@ -5,10 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Velox — Spin & Win</title>
+  <!-- Critical resource hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <!-- Preload LCP image -->
+  <link rel="preload" as="image" href="assets/salesman.png" fetchpriority="high" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800;900&display=swap"
     rel="stylesheet" />
   <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
 </head>
@@ -61,7 +67,7 @@
 
         <!-- Hero Body: image + text grouped -->
         <div class="hero-body">
-          <img src="assets/salesman.png" class="hero-image" alt="Salesman" />
+          <img src="assets/salesman.png" class="hero-image" alt="Salesman" width="280" height="336" fetchpriority="high" decoding="sync" />
           <div class="hero-text">
             <h1 class="hero-heading">Season 1<br>Welcomes YOU</h1>
             <p class="hero-sub">Join thousands of players and turn every spin into real USDT rewards — instantly.</p>
@@ -140,7 +146,7 @@
           <div class="carousel-item active team-circle">
             <canvas class="liquid-canvas"></canvas>
             <h2 class="team-name-top">Team Circle</h2>
-            <img src="assets/TeamOptions/CircleTeam.png" alt="Circle Team">
+            <img src="assets/TeamOptions/CircleTeam.png" alt="Circle Team" width="200" height="200" loading="lazy" decoding="async">
             <div class="carousel-overlay">
               <button class="team-select-btn">Select</button>
             </div>
@@ -148,7 +154,7 @@
           <div class="carousel-item team-triangle">
             <canvas class="liquid-canvas"></canvas>
             <h2 class="team-name-top">Team Triangle</h2>
-            <img src="assets/TeamOptions/TriangleTeam.png" alt="Triangle Team">
+            <img src="assets/TeamOptions/TriangleTeam.png" alt="Triangle Team" width="200" height="200" loading="lazy" decoding="async">
             <div class="carousel-overlay">
               <button class="team-select-btn">Select</button>
             </div>
@@ -156,7 +162,7 @@
           <div class="carousel-item team-square">
             <canvas class="liquid-canvas"></canvas>
             <h2 class="team-name-top">Team Square</h2>
-            <img src="assets/TeamOptions/SquareTeam.png" alt="Square Team">
+            <img src="assets/TeamOptions/SquareTeam.png" alt="Square Team" width="200" height="200" loading="lazy" decoding="async">
             <div class="carousel-overlay">
               <button class="team-select-btn">Select</button>
             </div>

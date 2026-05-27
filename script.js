@@ -472,6 +472,9 @@
     
     firstClone.classList.remove('active');
     lastClone.classList.remove('active');
+    // Mark clones so liquid simulation skips them
+    firstClone.querySelectorAll('.liquid-canvas').forEach(c => c.dataset.skip = '1');
+    lastClone.querySelectorAll('.liquid-canvas').forEach(c => c.dataset.skip = '1');
     
     carouselContainer.appendChild(firstClone);
     carouselContainer.insertBefore(lastClone, originalItems[0]);
@@ -563,7 +566,7 @@
 (function () {
   'use strict';
 
-  const DPR = window.devicePixelRatio || 1;
+  const DPR = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x — 3x retina triples GPU work
 
   function createWaterfall(canvas, isWhite = false, loop = false, isPink = false) {
     const ctx = canvas.getContext('2d');
@@ -571,7 +574,7 @@
     let time = 0;
 
     // Column-based fluid: each column tracks how far the liquid front has reached
-    const COL_WIDTH = 3;
+    const COL_WIDTH = 5; // Wider cols = fewer calculations (was 3)
     let columns = [];
     let ripples = [];
 
@@ -703,7 +706,7 @@
       ctx.fill();
 
       // ── Vertical flow streaks ──
-      const streakCount = 18;
+      const streakCount = 10; // Reduced from 18
       for (let s = 0; s < streakCount; s++) {
         const sx = (W / streakCount) * s + Math.sin(time * 2 + s) * 4;
         const colIdx = Math.floor(sx / COL_WIDTH);
@@ -740,7 +743,7 @@
       }
 
       // ── Horizontal sheen bands ──
-      for (let b = 0; b < 5; b++) {
+      for (let b = 0; b < 3; b++) { // Reduced from 5
         const by = (H / 6) * (b + 0.5) + Math.sin(time * 0.8 + b * 1.2) * 10;
         const colIdx = Math.floor(W / 2 / COL_WIDTH);
         if (colIdx >= 0 && colIdx < columns.length && columns[colIdx].front < by) continue;
@@ -815,12 +818,17 @@
       ctx.shadowBlur = 0;
     }
 
-    // ── Animation loop ──
+    // ── Animation loop (throttled to ~30fps) ──
     let lastTime = 0;
     let animId = null;
+    const FRAME_MS = 1000 / 30; // 30fps target
 
     function tick(timestamp) {
-      const dt = Math.min((timestamp - lastTime) / 1000, 0.033);
+      if (timestamp - lastTime < FRAME_MS) {
+        animId = requestAnimationFrame(tick);
+        return;
+      }
+      const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
       lastTime = timestamp;
       update(dt);
       draw();
@@ -847,6 +855,7 @@
   function initAllCanvases() {
     document.querySelectorAll('.liquid-canvas').forEach(canvas => {
       if (simulations.has(canvas)) return;
+      if (canvas.dataset.skip) return; // Skip cloned carousel items
       const isWhite = false;
       const loop = false;
       const sim = createWaterfall(canvas, isWhite, loop);
@@ -858,6 +867,21 @@
   window.addEventListener('resize', () => {
     simulations.forEach(sim => sim.resize());
   });
+
+  // Pause liquid simulations when carousel is off-screen (saves CPU)
+  const carouselViewport = document.querySelector('.vp2-carousel');
+  if (carouselViewport) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        simulations.forEach((sim, canvas) => {
+          if (carouselViewport.contains(canvas)) {
+            entry.isIntersecting ? sim.start() : sim.stop();
+          }
+        });
+      });
+    }, { threshold: 0.1 });
+    io.observe(carouselViewport);
+  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAllCanvases);
