@@ -546,14 +546,31 @@
       }, 150); // wait for snap finish
     };
 
-    carouselContainer.addEventListener('scroll', updateActiveItem);
+    let isScrolling = false;
+    carouselContainer.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+          updateActiveItem();
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
+    }, { passive: true });
     // Give it a tiny delay on init so layout finishes painting
     setTimeout(updateActiveItem, 150);
   }
 
   // ── INIT ──
-  setupCanvas();
-  drawWheel();
+  const initApp = () => {
+    setupCanvas();
+    drawWheel();
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initApp);
+  } else {
+    setTimeout(initApp, 1);
+  }
 
 })();
 
@@ -884,9 +901,9 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAllCanvases);
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initAllCanvases, 1500));
   } else {
-    setTimeout(initAllCanvases, 250);
+    setTimeout(initAllCanvases, 1500);
   }
 
 })();
