@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Velox — Spin & Win</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
+</head>
+
+<body>
+
+  <!-- App Shell -->
+  <div class="app-shell">
+
+    <!-- Header -->
+    <div class="app-header">
+      <!-- Header Walking Animation -->
+      <dotlottie-player src="assets/walk.lottie" class="header-bg-lottie" background="transparent" speed="1" loop
+        autoplay></dotlottie-player>
+      <!-- Dark overlay so text stays readable -->
+      <div class="header-overlay"></div>
+
+      <div class="header-left">
+        <span class="brand-name">VELOX</span>
+      </div>
+      <!-- Pre-connection state -->
+      <div class="header-actions" id="headerPreConnect">
+        <button class="connect-btn" id="connectBtn">
+          <i class="ti ti-brand-telegram"></i> Connect
+        </button>
+      </div>
+      <!-- Post-connection state (hidden until connected) -->
+      <div class="header-actions header-connected hidden" id="headerPostConnect">
+        <button class="balance-btn" id="balanceBtn">
+          <i class="ti ti-plus"></i>
+          <span id="balanceAmount">0.00</span>
+          <span class="balance-label">USDT</span>
+        </button>
+        <div class="avatar" id="userAvatar">AK</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="app-content">
+
+      <!-- Viewport 1: Hero -->
+      <div class="viewport-screen vp1-hero">
+
+        <!-- Hamburger -->
+        <div class="hamburger-btn" id="hamburger" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <!-- Hero Body: image + text grouped -->
+        <div class="hero-body">
+          <img src="assets/salesman.png" class="hero-image" alt="Salesman" />
+          <div class="hero-text">
+            <h1 class="hero-heading">Season 1<br>Welcomes YOU</h1>
+            <p class="hero-sub">Join thousands of players and turn every spin into real USDT rewards — instantly.</p>
+          </div>
+        </div>
+
+        <!-- Season Status Box -->
+        <div class="season-status-box">
+          <dotlottie-player src="assets/Paperboats.lottie" class="status-bg-lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
+          <div class="status-header">
+            <span class="status-time"><i class="ti ti-clock"></i> 14 Days Left</span>
+            <span class="status-pot">Pot: $2.4M / $10.0M</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 24%;"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Viewport 2: Team Carousel -->
+      <div class="viewport-screen vp2-carousel">
+        <!-- Team Stats Bar -->
+        <div class="team-stats-box">
+          <!-- Circle -->
+          <div class="team-stat-item">
+            <div class="team-stat-shape">
+              <svg viewBox="0 0 36 36" width="36" height="36">
+                <circle cx="18" cy="18" r="13" fill="none" stroke="#f44786" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="7" fill="rgba(244,71,134,0.18)"/>
+              </svg>
+            </div>
+            <div class="team-stat-info">
+              <span class="team-stat-count" id="circleCount">12.4K</span>
+              <span class="team-stat-label">Players</span>
+            </div>
+          </div>
+
+          <div class="team-stat-divider"></div>
+
+          <!-- Triangle -->
+          <div class="team-stat-item">
+            <div class="team-stat-shape">
+              <svg viewBox="0 0 36 36" width="36" height="36">
+                <polygon points="18,5 33,30 3,30" fill="none" stroke="#f44786" stroke-width="2.5" stroke-linejoin="round"/>
+                <polygon points="18,12 27,28 9,28" fill="rgba(244,71,134,0.18)"/>
+              </svg>
+            </div>
+            <div class="team-stat-info">
+              <span class="team-stat-count" id="triangleCount">8.7K</span>
+              <span class="team-stat-label">Players</span>
+            </div>
+          </div>
+
+          <div class="team-stat-divider"></div>
+
+          <!-- Square -->
+          <div class="team-stat-item">
+            <div class="team-stat-shape">
+              <svg viewBox="0 0 36 36" width="36" height="36">
+                <rect x="6" y="6" width="24" height="24" rx="4" fill="none" stroke="#f44786" stroke-width="2.5"/>
+                <rect x="12" y="12" width="12" height="12" rx="2" fill="rgba(244,71,134,0.18)"/>
+              </svg>
+            </div>
+            <div class="team-stat-info">
+              <span class="team-stat-count" id="squareCount">9.2K</span>
+              <span class="team-stat-label">Players</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-heading-box">
+          <h2 class="carousel-heading">Player <span id="playerIdName">#4521</span><br>Select Your Team<button class="team-info-btn" id="teamInfoBtn" aria-label="Team joining instructions"><i class="ti ti-info-circle"></i></button></h2>
+        </div>
+        <div class="carousel-container" id="teamCarousel">
+          <div class="carousel-item active team-circle">
+            <canvas class="liquid-canvas"></canvas>
+            <h2 class="team-name-top">Team Circle</h2>
+            <img src="assets/TeamOptions/CircleTeam.png" alt="Circle Team">
+            <div class="carousel-overlay">
+              <button class="team-select-btn">Select</button>
+            </div>
+          </div>
+          <div class="carousel-item team-triangle">
+            <canvas class="liquid-canvas"></canvas>
+            <h2 class="team-name-top">Team Triangle</h2>
+            <img src="assets/TeamOptions/TriangleTeam.png" alt="Triangle Team">
+            <div class="carousel-overlay">
+              <button class="team-select-btn">Select</button>
+            </div>
+          </div>
+          <div class="carousel-item team-square">
+            <canvas class="liquid-canvas"></canvas>
+            <h2 class="team-name-top">Team Square</h2>
+            <img src="assets/TeamOptions/SquareTeam.png" alt="Square Team">
+            <div class="carousel-overlay">
+              <button class="team-select-btn">Select</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Viewport 3: Wheel + Join + Recent Wins -->
+      <div class="viewport-screen">
+
+        <!-- Wheel Section -->
+        <div class="wheel-section">
+
+          <!-- Pointer -->
+          <div class="wheel-pointer" id="wheelPointer">
+            <div class="pointer-ball">8</div>
+            <div class="pointer-arrow"></div>
+          </div>
+
+          <!-- Canvas Wheel -->
+          <div class="wheel-wrapper">
+            <div class="wheel-outer-ring">
+              <canvas id="wheelCanvas" width="600" height="600"></canvas>
+            </div>
+            <!-- Center SPIN Button -->
+            <button class="spin-button" id="spinBtn">
+              <span class="spin-text">SPIN</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Join Button -->
+        <button class="join-btn" id="joinBtn">
+          <i class="ti ti-plus"></i>Join
+        </button>
+
+        <!-- Recent Wins -->
+        <div class="recent-wins">
+          <div class="section-title">Recent Wins</div>
+          <div class="wins-list" id="winsList">
+            <div class="win-item placeholder-win">
+              <div class="win-icon"><i class="ti ti-trophy"></i></div>
+              <div class="win-info">
+                <span class="win-prize">Spin to win!</span>
+                <span class="win-time">Your rewards appear here</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Team Info Popup -->
+    <div class="team-info-overlay" id="teamInfoOverlay">
+      <div class="team-info-popup" id="teamInfoPopup">
+        <div class="tip-header">
+          <div class="tip-title">
+            <i class="ti ti-users-group"></i>
+            <span>How to Join a Team</span>
+          </div>
+          <button class="tip-close-btn" id="teamInfoClose" aria-label="Close"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="tip-body">
+          <div class="tip-step">
+            <div class="tip-step-num">1</div>
+            <div class="tip-step-text">
+              <strong>Swipe to Browse</strong>
+              <span>Scroll left or right through the carousel to see all available teams — Circle, Triangle, and Square.</span>
+            </div>
+          </div>
+          <div class="tip-step">
+            <div class="tip-step-num">2</div>
+            <div class="tip-step-text">
+              <strong>Pick Your Team</strong>
+              <span>Center a team card to activate it. The card will brighten and a <em>Select</em> button will appear.</span>
+            </div>
+          </div>
+          <div class="tip-step">
+            <div class="tip-step-num">3</div>
+            <div class="tip-step-text">
+              <strong>Tap Select</strong>
+              <span>Press the <em>Select</em> button on the active card to lock in your team for this season.</span>
+            </div>
+          </div>
+          <div class="tip-step">
+            <div class="tip-step-num">4</div>
+            <div class="tip-step-text">
+              <strong>Spin &amp; Earn</strong>
+              <span>Head to the Spin Wheel and start earning USDT rewards. Team performance boosts your multiplier!</span>
+            </div>
+          </div>
+          <div class="tip-note">
+            <i class="ti ti-alert-triangle"></i>
+            You can only join <strong>one team per season</strong>. Choose wisely!
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /app-shell -->
+
+  <!-- Crypto Deposit Modal -->
+  <div class="deposit-modal-overlay hidden" id="depositModal">
+    <div class="deposit-modal">
+      <div class="deposit-header">
+        <span class="deposit-title">Deposit USDT</span>
+        <button class="deposit-close" id="depositClose"><i class="ti ti-x"></i></button>
+      </div>
+      <div class="deposit-network-tabs">
+        <button class="net-tab active" data-net="TRC20">TRC20</button>
+        <button class="net-tab" data-net="ERC20">ERC20</button>
+        <button class="net-tab" data-net="BEP20">BEP20</button>
+      </div>
+      <div class="deposit-qr">
+        <div class="qr-placeholder">
+          <i class="ti ti-qrcode"></i>
+        </div>
+      </div>
+      <div class="deposit-address-box">
+        <span class="deposit-address" id="depositAddress">TQnXmZ9k3fVpA8uYrB2wJcLeH1dMsNqP6</span>
+        <button class="copy-btn" id="copyAddressBtn"><i class="ti ti-copy"></i></button>
+      </div>
+      <p class="deposit-note">⚠️ Send only USDT on the selected network. Min deposit: 1 USDT.</p>
+      <div class="deposit-balance-row">
+        <span class="deposit-bal-label">Current Balance</span>
+        <span class="deposit-bal-value"><span id="modalBalance">0.00</span> USDT</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reward Modal -->
+  <div class="reward-modal-overlay" id="rewardModal">
+    <div class="reward-modal">
+      <div class="reward-confetti-icon">🎉</div>
+      <h2 class="reward-title">Congratulations!</h2>
+      <p class="reward-subtitle">You won</p>
+      <div class="reward-prize" id="rewardPrize">500</div>
+      <button class="reward-claim-btn" id="claimBtn">Claim Reward</button>
+    </div>
+  </div>
+
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
