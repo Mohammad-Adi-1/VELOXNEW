@@ -945,3 +945,62 @@
   });
 })();
 
+
+// ══════════════════════════════════════
+// SCROLL SHADOW FADE
+// ══════════════════════════════════════
+(function() {
+  const appContent = document.querySelector('.app-content');
+  const vp2 = document.querySelector('.vp2-carousel');
+  const vp3 = document.querySelector('.vp2-carousel + .viewport-screen');
+  
+  if (!appContent) return;
+
+  function updateShadows() {
+    const scrollY = appContent.scrollTop;
+    const viewHeight = appContent.clientHeight;
+
+    // vp2 shadow logic
+    if (vp2) {
+      const distance = vp2.offsetTop - scrollY;
+      let opacity = 0;
+      if (distance > viewHeight * 0.5) {
+        opacity = 1;
+      } else if (distance > 0) {
+        opacity = distance / (viewHeight * 0.5);
+      }
+      
+      if (opacity > 0.05) {
+        vp2.style.boxShadow = `0 -25px 40px rgba(0, 0, 0, ${0.4 * opacity})`;
+        vp2.style.borderTop = `1px solid rgba(0, 0, 0, ${0.1 * opacity})`;
+      } else {
+        vp2.style.boxShadow = 'none';
+        vp2.style.borderTop = 'none';
+      }
+    }
+
+    // vp3 shadow logic
+    if (vp3) {
+      const distance = vp3.offsetTop - scrollY;
+      let opacity = 0;
+      if (distance > viewHeight * 0.5) {
+        opacity = 1;
+      } else if (distance > 0) {
+        opacity = distance / (viewHeight * 0.5);
+      }
+      
+      if (opacity > 0.05) {
+        vp3.style.boxShadow = `0 -25px 40px rgba(0, 0, 0, ${0.4 * opacity})`;
+        vp3.style.borderTop = `1px solid rgba(0, 0, 0, ${0.1 * opacity})`;
+      } else {
+        vp3.style.boxShadow = 'none';
+        vp3.style.borderTop = 'none';
+      }
+    }
+  }
+
+  appContent.addEventListener('scroll', updateShadows, { passive: true });
+  // initial call
+  updateShadows();
+})();
+
