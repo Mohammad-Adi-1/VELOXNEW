@@ -620,7 +620,7 @@ body {
   top: 0;
   width: calc(100% + 40px);
   margin-left: -20px; /* Counter-act .app-content padding */
-  background: #000;
+  background: #f44786;
   z-index: 2;
   border-top-left-radius: 32px;
   border-top-right-radius: 32px;
@@ -630,7 +630,7 @@ body {
 }
 
 .vp2-carousel + .viewport-screen {
-  background: #000;
+  background: #fff;
   z-index: 3;
   position: -webkit-sticky;
   position: sticky;
@@ -1188,9 +1188,8 @@ body {
 .section-title {
   font-size: 14px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
+  color: #111;
   letter-spacing: -0.2px;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
 .wins-list {
@@ -1205,10 +1204,10 @@ body {
   gap: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   animation: slideInWin 0.35s ease;
 }
 
@@ -1250,12 +1249,12 @@ body {
 .win-prize {
   font-size: 12.5px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
+  color: #111;
 }
 
 .win-time {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #666;
   font-weight: 400;
 }
 
