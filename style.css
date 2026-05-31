@@ -479,26 +479,47 @@ body {
   z-index: 1;
 }
 
+.hero-image-stack {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image-bg {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+  z-index: 0;
+  animation: bounceSalesman 4s ease-in-out infinite;
+}
+
+@keyframes bounceSalesman {
+  0%   { left: 50%; transform: translateX(-50%); }
+  25%  { left: 0%;  transform: translateX(0%); }
+  50%  { left: 50%; transform: translateX(-50%); }
+  75%  { left: 100%; transform: translateX(-100%); }
+  100% { left: 50%; transform: translateX(-50%); }
+}
+
+.hero-image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+  transform: scale(1.25);
+}
+
 .hero-body {
   display: flex;
   flex-direction: column;
   margin-top: 16px;
-}
-
-.hero-video-wrapper {
-  width: 100%;
-  height: 240px;
-  margin: 16px 0 0 0;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.hero-video-banner {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transform: scale(1.05);
 }
 
 .hero-text {
