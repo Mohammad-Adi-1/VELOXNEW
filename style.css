@@ -473,7 +473,6 @@ body {
   justify-content: flex-start;
   overflow: hidden;
   z-index: 1;
-  border: 2px solid red;
   padding-top: 10px;
   padding-left: 20px;
   padding-right: 20px;
@@ -697,7 +696,6 @@ body {
   z-index: 3;
   padding-top: 12px;
   padding-bottom: 24px;
-  border: 2px solid red;
 }
 
 .vp2-carousel + .viewport-screen {
@@ -705,7 +703,6 @@ body {
   z-index: 4;
   width: 100%;
   padding: 12px 20px 20px;
-  border: 2px solid red;
 }
 
 
