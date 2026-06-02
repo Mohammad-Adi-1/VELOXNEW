@@ -698,7 +698,12 @@
       ctx.lineTo(W + 5, -5);
       ctx.closePath();
 
-      // ── Liquid fill gradient ──
+      // ── Solid opaque base fill (prevents background bleed-through) ──
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = isWhite ? '#cccccc' : isPink ? '#3a0016' : '#f44786';
+      ctx.fill();
+
+      // ── Liquid fill gradient (layered on top) ──
       const fillGrad = ctx.createLinearGradient(0, 0, 0, H);
       if (isWhite) {
         fillGrad.addColorStop(0, 'rgba(180, 180, 180, 1)');
@@ -713,75 +718,18 @@
         fillGrad.addColorStop(0.85, 'rgba(244, 71, 134, 1)');
         fillGrad.addColorStop(1, 'rgba(244, 71, 134, 1)');
       } else {
-        fillGrad.addColorStop(0, 'rgba(130, 0, 0, 1)');
-        fillGrad.addColorStop(0.3, 'rgba(180, 0, 0, 1)');
-        fillGrad.addColorStop(0.6, 'rgba(220, 0, 10, 1)');
-        fillGrad.addColorStop(0.85, 'rgba(255, 10, 20, 1)');
-        fillGrad.addColorStop(1, 'rgba(255, 0, 0, 1)');
+        fillGrad.addColorStop(0, 'rgba(244, 71, 134, 1)');
+        fillGrad.addColorStop(0.3, 'rgba(244, 71, 134, 1)');
+        fillGrad.addColorStop(0.6, 'rgba(244, 71, 134, 1)');
+        fillGrad.addColorStop(0.85, 'rgba(244, 71, 134, 1)');
+        fillGrad.addColorStop(1, 'rgba(244, 71, 134, 1)');
       }
       ctx.fillStyle = fillGrad;
       ctx.fill();
 
-      // ── Vertical flow streaks ──
-      const streakCount = 10; // Reduced from 18
-      for (let s = 0; s < streakCount; s++) {
-        const sx = (W / streakCount) * s + Math.sin(time * 2 + s) * 4;
-        const colIdx = Math.floor(sx / COL_WIDTH);
-        if (colIdx < 0 || colIdx >= columns.length) continue;
-        const frontY = columns[colIdx].front;
-        if (frontY < 0) continue;
 
-        const streakH = Math.min(frontY, H);
-        const sGrad = ctx.createLinearGradient(sx, 0, sx, streakH);
-        const phase = Math.sin(time * 1.5 + s * 0.7);
-        const brightness = phase > 0 ? 0.15 : 0.05;
-        if (isWhite) {
-          sGrad.addColorStop(0, `rgba(255, 255, 255, ${brightness * 0.5})`);
-          sGrad.addColorStop(0.5, `rgba(255, 255, 255, ${brightness * 0.8})`);
-          sGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        } else if (isPink) {
-          sGrad.addColorStop(0, `rgba(244, 71, 134, ${brightness})`);
-          sGrad.addColorStop(0.5, `rgba(255, 130, 175, ${brightness * 1.5})`);
-          sGrad.addColorStop(1, 'rgba(244, 71, 134, 0)');
-        } else {
-          sGrad.addColorStop(0, `rgba(255, 80, 80, ${brightness})`);
-          sGrad.addColorStop(0.5, `rgba(255, 120, 120, ${brightness * 1.5})`);
-          sGrad.addColorStop(1, 'rgba(255, 80, 80, 0)');
-        }
 
-        ctx.beginPath();
-        ctx.moveTo(sx - 1.5, 0);
-        ctx.lineTo(sx + 1.5, 0);
-        ctx.lineTo(sx + 1 + Math.sin(time * 3 + s) * 0.5, streakH);
-        ctx.lineTo(sx - 1 + Math.sin(time * 3 + s) * 0.5, streakH);
-        ctx.closePath();
-        ctx.fillStyle = sGrad;
-        ctx.fill();
-      }
 
-      // ── Horizontal sheen bands ──
-      for (let b = 0; b < 3; b++) { // Reduced from 5
-        const by = (H / 6) * (b + 0.5) + Math.sin(time * 0.8 + b * 1.2) * 10;
-        const colIdx = Math.floor(W / 2 / COL_WIDTH);
-        if (colIdx >= 0 && colIdx < columns.length && columns[colIdx].front < by) continue;
-
-        const sheenGrad = ctx.createLinearGradient(0, by - 4, 0, by + 4);
-        if (isWhite) {
-          sheenGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
-          sheenGrad.addColorStop(0.5, `rgba(255, 255, 255, ${0.05 + Math.sin(time + b) * 0.03})`);
-          sheenGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        } else if (isPink) {
-          sheenGrad.addColorStop(0, 'rgba(244, 71, 134, 0)');
-          sheenGrad.addColorStop(0.5, `rgba(255, 150, 190, ${0.1 + Math.sin(time + b) * 0.05})`);
-          sheenGrad.addColorStop(1, 'rgba(244, 71, 134, 0)');
-        } else {
-          sheenGrad.addColorStop(0, 'rgba(255, 100, 100, 0)');
-          sheenGrad.addColorStop(0.5, `rgba(255, 100, 100, ${0.1 + Math.sin(time + b) * 0.05})`);
-          sheenGrad.addColorStop(1, 'rgba(255, 100, 100, 0)');
-        }
-        ctx.fillStyle = sheenGrad;
-        ctx.fillRect(0, by - 4, W, 8);
-      }
 
       // ── Surface ripples ──
       ripples.forEach(r => {
@@ -796,7 +744,7 @@
         } else if (isPink) {
           ctx.strokeStyle = `rgba(255, 150, 190, ${r.opacity})`;
         } else {
-          ctx.strokeStyle = `rgba(255, 80, 80, ${r.opacity})`;
+          ctx.strokeStyle = `rgba(160, 20, 20, ${r.opacity})`;
         }
         ctx.lineWidth = 1;
         ctx.stroke();
@@ -825,9 +773,9 @@
         ctx.shadowColor = 'rgba(244, 71, 134, 0.8)';
         ctx.shadowBlur = 10;
       } else {
-        ctx.strokeStyle = 'rgba(255, 50, 50, 0.9)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
         ctx.lineWidth = 3;
-        ctx.shadowColor = 'rgba(255, 0, 0, 0.7)';
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.7)';
         ctx.shadowBlur = 8;
       }
       ctx.stroke();
@@ -875,7 +823,8 @@
       if (canvas.dataset.skip) return; // Skip cloned carousel items
       const isWhite = false;
       const loop = false;
-      const sim = createWaterfall(canvas, isWhite, loop);
+      const isPink = false;
+      const sim = createWaterfall(canvas, isWhite, loop, isPink);
       simulations.set(canvas, sim);
       sim.start();
     });
