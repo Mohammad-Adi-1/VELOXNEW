@@ -39,7 +39,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   overflow-x: hidden;
-  background: #333333;
+  background: #f8a2a2;
   position: relative;
   z-index: 1;
   /* Safe area insets for notched phones */
@@ -555,7 +555,7 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .hero-heading {
@@ -686,14 +686,14 @@ body {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  background: #333333;
+  background: #f8a2a2;
   z-index: 3;
   padding-top: 12px;
   padding-bottom: 24px;
 }
 
 .vp2-carousel ~ .viewport-screen {
-  background: #333333;
+  background: #f8a2a2;
   z-index: 4;
   width: 100%;
   padding: 12px 20px 20px;
@@ -1954,7 +1954,7 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .active-game-info h3 {
