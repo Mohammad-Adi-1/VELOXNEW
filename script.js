@@ -585,7 +585,7 @@
 
   const DPR = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x — 3x retina triples GPU work
 
-  function createWaterfall(canvas, isWhite = false, loop = false, isPink = false) {
+  function createWaterfall(canvas, isBlue = false, loop = false, isPink = false) {
     const ctx = canvas.getContext('2d');
     let W, H;
     let time = 0;
@@ -700,17 +700,17 @@
 
       // ── Solid opaque base fill (prevents background bleed-through) ──
       ctx.globalAlpha = 1;
-      ctx.fillStyle = isWhite ? '#cccccc' : isPink ? '#3a0016' : '#f44786';
+      ctx.fillStyle = isBlue ? '#002244' : isPink ? '#3a0016' : '#f44786';
       ctx.fill();
 
       // ── Liquid fill gradient (layered on top) ──
       const fillGrad = ctx.createLinearGradient(0, 0, 0, H);
-      if (isWhite) {
-        fillGrad.addColorStop(0, 'rgba(180, 180, 180, 1)');
-        fillGrad.addColorStop(0.3, 'rgba(215, 215, 215, 1)');
-        fillGrad.addColorStop(0.6, 'rgba(235, 235, 235, 1)');
-        fillGrad.addColorStop(0.85, 'rgba(248, 248, 248, 1)');
-        fillGrad.addColorStop(1, 'rgba(255, 255, 255, 1)');
+      if (isBlue) {
+        fillGrad.addColorStop(0, 'rgba(0, 40, 90, 1)');
+        fillGrad.addColorStop(0.3, 'rgba(0, 80, 150, 1)');
+        fillGrad.addColorStop(0.6, 'rgba(0, 120, 210, 1)');
+        fillGrad.addColorStop(0.85, 'rgba(0, 160, 255, 1)');
+        fillGrad.addColorStop(1, 'rgba(100, 200, 255, 1)');
       } else if (isPink) {
         fillGrad.addColorStop(0, 'rgba(120, 15, 55, 1)');
         fillGrad.addColorStop(0.3, 'rgba(180, 35, 85, 1)');
@@ -739,8 +739,8 @@
 
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-        if (isWhite) {
-          ctx.strokeStyle = `rgba(255, 255, 255, ${r.opacity * 0.5})`;
+        if (isBlue) {
+          ctx.strokeStyle = `rgba(100, 200, 255, ${r.opacity * 0.6})`;
         } else if (isPink) {
           ctx.strokeStyle = `rgba(255, 150, 190, ${r.opacity})`;
         } else {
@@ -762,11 +762,11 @@
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
-      if (isWhite) {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+      if (isBlue) {
+        ctx.strokeStyle = 'rgba(100, 200, 255, 0.9)';
         ctx.lineWidth = 2;
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
-        ctx.shadowBlur = 6;
+        ctx.shadowColor = 'rgba(0, 160, 255, 0.6)';
+        ctx.shadowBlur = 8;
       } else if (isPink) {
         ctx.strokeStyle = 'rgba(255, 150, 190, 0.95)';
         ctx.lineWidth = 3;
@@ -801,6 +801,7 @@
     }
 
     function start() {
+      stop();
       resize();
       lastTime = performance.now();
       animId = requestAnimationFrame(tick);
@@ -821,12 +822,22 @@
     document.querySelectorAll('.liquid-canvas').forEach(canvas => {
       if (simulations.has(canvas)) return;
       if (canvas.dataset.skip) return; // Skip cloned carousel items
-      const isWhite = false;
+      
+      const isGameCard = canvas.closest('.game-card') !== null;
+      const isBlue = isGameCard; // Blue liquid for game cards
       const loop = false;
       const isPink = false;
-      const sim = createWaterfall(canvas, isWhite, loop, isPink);
+      
+      const sim = createWaterfall(canvas, isBlue, loop, isPink);
       simulations.set(canvas, sim);
-      sim.start();
+      
+      if (isGameCard) {
+        const card = canvas.closest('.game-card');
+        card.addEventListener('mouseenter', () => sim.start());
+        card.addEventListener('mouseleave', () => sim.stop());
+      } else {
+        sim.start();
+      }
     });
   }
 
