@@ -39,7 +39,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   overflow-x: hidden;
-  background: #eea302;
+  background: #020a31;
   position: relative;
   z-index: 1;
   /* Safe area insets for notched phones */
@@ -686,14 +686,14 @@ body {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  background: #eea302;
+  background: #020a31;
   z-index: 3;
   padding-top: 12px;
   padding-bottom: 24px;
 }
 
 .vp2-carousel + .viewport-screen {
-  background: #eea302;
+  background: #020a31;
   z-index: 4;
   width: 100%;
   padding: 12px 20px 20px;
