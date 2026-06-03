@@ -823,21 +823,13 @@
       if (simulations.has(canvas)) return;
       if (canvas.dataset.skip) return; // Skip cloned carousel items
       
-      const isGameCard = canvas.closest('.game-card') !== null;
-      const isBlue = isGameCard; // Blue liquid for game cards
+      const isBlue = false;
       const loop = false;
       const isPink = false;
       
       const sim = createWaterfall(canvas, isBlue, loop, isPink);
       simulations.set(canvas, sim);
-      
-      if (isGameCard) {
-        const card = canvas.closest('.game-card');
-        card.addEventListener('mouseenter', () => sim.start());
-        card.addEventListener('mouseleave', () => sim.stop());
-      } else {
-        sim.start();
-      }
+      sim.start();
     });
   }
 
@@ -905,6 +897,207 @@
   });
 })();
 
+
+// ══════════════════════════════════════
+// ORBITAL GAME CAROUSEL
+// ══════════════════════════════════════
+(function () {
+  'use strict';
+
+  const carousel = document.getElementById('circularCarousel');
+  const dotsContainer = document.getElementById('circularDots');
+  if (!carousel) return;
+
+  const cards = Array.from(carousel.querySelectorAll('.game-card'));
+  const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.carousel-dot')) : [];
+  const N = cards.length;
+  const ANGLE_STEP = (2 * Math.PI) / N; // 90° for 4 cards
+  const ORBIT_RADIUS = 170;
+
+  let currentIndex = 0;
+  let currentAngle = 0;   // current animated rotation (radians)
+  let targetAngle = 0;    // where we're rotating to
+  let animId = null;
+  let startX = 0;
+  let isDragging = false;
+
+  function renderCards() {
+    const rect = carousel.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height + ORBIT_RADIUS * 0.15;
+
+    cards.forEach((card, i) => {
+      // Each card sits at a fixed position on the ring, offset by current rotation
+      const angle = (-Math.PI / 2) + i * ANGLE_STEP - currentAngle;
+
+      const x = cx + Math.cos(angle) * ORBIT_RADIUS;
+      const y = cy + Math.sin(angle) * ORBIT_RADIUS;
+
+      // Size: active card is bigger
+      const isActive = i === currentIndex;
+      const size = isActive ? 250 : 180;
+
+      card.style.left = (x - size / 2) + 'px';
+      card.style.top = (y - size / 2) + 'px';
+      card.style.width = size + 'px';
+      card.style.height = size + 'px';
+
+      // Determine how far this card is from the top of the arc
+      // Normalize angle to [-π, π]
+      let normAngle = angle % (2 * Math.PI);
+      if (normAngle > Math.PI) normAngle -= 2 * Math.PI;
+      if (normAngle < -Math.PI) normAngle += 2 * Math.PI;
+      const distFromTop = Math.abs(normAngle + Math.PI / 2);
+
+      // Opacity: full at top, fading as it goes around
+      const opacity = Math.max(0, 1 - distFromTop / (Math.PI * 0.6));
+      card.style.opacity = opacity;
+
+      if (isActive) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+
+      // Hide cards on the bottom half entirely
+      if (normAngle > 0.2 && normAngle < Math.PI - 0.2) {
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+      } else {
+        card.style.pointerEvents = '';
+      }
+    });
+
+    // Update dots
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+  }
+
+  function animateLoop() {
+    const diff = targetAngle - currentAngle;
+    if (Math.abs(diff) < 0.002) {
+      currentAngle = targetAngle;
+      renderCards();
+      animId = null;
+      return;
+    }
+    currentAngle += diff * 0.12;
+    renderCards();
+    animId = requestAnimationFrame(animateLoop);
+  }
+
+  function startAnimation() {
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animateLoop);
+  }
+
+  const gameData = [
+    {
+      title: "Spin & Win",
+      desc: "Experience the thrill of the ultimate wheel of fortune! Spin daily for a chance to win massive rewards, exclusive tokens, and rare in-game items. Test your luck, build your fortune, and see where the wheel takes you today!"
+    },
+    {
+      title: "Card Flip",
+      desc: "Put your memory to the ultimate test in this high-stakes card flipping challenge! Match pairs of identical cards to uncover hidden bonuses and multiply your daily earnings. Stay sharp, memorize patterns, and flip your way to victory!"
+    },
+    {
+      title: "Dice Roll",
+      desc: "Roll the dice and let fate decide your fortune! A classic game of chance where high rolls unlock premium loot boxes and rare character skins. Bet your tokens strategically, beat the house odds, and become the ultimate high roller."
+    },
+    {
+      title: "Battle",
+      desc: "Enter the arena and challenge players worldwide in intense tactical combat! Choose your hero, customize your loadout, and outsmart your opponents to climb the global leaderboard. Glory, fame, and legendary rewards await the champions."
+    }
+  ];
+
+  const titleEl = document.getElementById('displayGameTitle');
+  const descEl = document.getElementById('displayGameDesc');
+
+  function goTo(index) {
+    index = ((index % N) + N) % N;
+    currentIndex = index;
+
+    // Update the info box content
+    if (titleEl && descEl) {
+      titleEl.style.opacity = 0;
+      descEl.style.opacity = 0;
+      
+      setTimeout(() => {
+        titleEl.textContent = gameData[index].title;
+        descEl.textContent = gameData[index].desc;
+        titleEl.style.opacity = 1;
+        descEl.style.opacity = 1;
+      }, 150); // slight delay for a nice fade effect
+    }
+
+    // Target angle for this index
+    const newTarget = index * ANGLE_STEP;
+
+    // Find shortest rotation path
+    let diff = newTarget - currentAngle;
+    // Normalize to [-π, π]
+    while (diff > Math.PI) diff -= 2 * Math.PI;
+    while (diff < -Math.PI) diff += 2 * Math.PI;
+    targetAngle = currentAngle + diff;
+
+    startAnimation();
+  }
+
+  // ── Touch ──
+  carousel.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  carousel.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = e.changedTouches[0].clientX - startX;
+    if (Math.abs(diff) > 40) {
+      goTo(currentIndex + (diff < 0 ? 1 : -1));
+    }
+  }, { passive: true });
+
+  // ── Mouse drag ──
+  carousel.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    e.preventDefault();
+  });
+
+  document.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = e.clientX - startX;
+    if (Math.abs(diff) > 40) {
+      goTo(currentIndex + (diff < 0 ? 1 : -1));
+    }
+  });
+
+  // ── Dot click ──
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => goTo(parseInt(dot.dataset.index, 10)));
+  });
+
+  // ── Card click ──
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => goTo(i));
+  });
+
+  // ── Keyboard Navigation ──
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      goTo(currentIndex - 1);
+    } else if (e.key === 'ArrowRight') {
+      goTo(currentIndex + 1);
+    }
+  });
+
+  // ── Resize ──
+  window.addEventListener('resize', renderCards);
+
+  // Init
+  renderCards();
+})();
 
 
 

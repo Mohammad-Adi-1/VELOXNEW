@@ -1902,19 +1902,22 @@ body {
 }
 
 /* ══════════════════════════════════════
-   VIEWPORT 3 GAMES GRID
+   VIEWPORT 3 — ORBITAL GAME CAROUSEL
    ══════════════════════════════════════ */
 
 .vp3-games {
   padding-top: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
 }
 
 .games-heading-box {
   width: 100%;
-  max-width: 100%;
-  margin: 0 0 16px 0;
+  margin: 0;
   padding: 24px 20px 20px;
   background: rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(14px);
@@ -1936,110 +1939,211 @@ body {
   margin: 0;
 }
 
-.games-grid {
-  width: 100%;
-  padding: 0 20px;
-  max-width: 480px;
-  margin: 0 auto;
+/* ── Active Game Info Display ── */
+.active-game-info {
+  text-align: center;
+  margin: 0 auto 10px;
+  padding: 12px 16px;
+  width: 90%;
+  max-width: 420px;
+  /* Removed min-height to allow it to shrink if needed */
+  
+  /* Glassmorphic box styling (matched to hero-text) */
+  background: rgba(255, 255, 255, 0.048);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.active-game-info h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 35px;
+  font-weight: 800;
+  color: #f44786;
+  margin: 0 0 10px 0;
+  transition: opacity 0.3s ease;
+}
+
+.active-game-info p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  color: #ffffff;
+  line-height: 1.5;
+  margin: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ── Orbit Carousel Structure ── */
+.circular-carousel-wrapper {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
-  gap: 12px;
+  justify-content: flex-end;
   position: relative;
-  z-index: 5;
+  overflow: visible;
 }
 
+.circular-carousel {
+  width: 100%;
+  height: 280px; /* Reduced from 350px to fit on small screens */
+  position: relative;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+/* The visible orbit ring */
+.orbit-ring {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  left: 50%;
+  top: calc(100% + 26px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 30px rgba(244, 71, 134, 0.05),
+              inset 0 0 30px rgba(244, 71, 134, 0.03);
+}
+
+/* ── Game Cards on the Orbit ── */
 .game-card {
-  background: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 12px;
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #eeeeee;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  flex: 1;
-  aspect-ratio: 1 / 1;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
-  position: relative;
+  transition: box-shadow 0.4s ease,
+              border-color 0.4s ease,
+              background 0.4s ease,
+              filter 0.4s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  z-index: 2;
 }
 
-.game-card .liquid-canvas {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  border-radius: 16px;
+.game-card.active {
+  width: 250px;
+  height: 250px;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.25),
+              0 0 50px rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  filter: none;
 }
 
-.game-card:hover .liquid-canvas {
-  opacity: 1;
+.game-card:hover,
+.game-card.active:hover {
+  background: #ffffff;
+  border-color: #f44786;
+  box-shadow: 0 0 15px rgba(244, 71, 134, 0.6);
 }
 
+.game-card:not(.active) {
+  z-index: 2;
+  filter: blur(1px);
+}
+
+/* ── Card Innards ── */
 .game-card-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  position: relative;
-  z-index: 1;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.game-card:hover .game-card-content {
-  transform: scale(1.08);
-}
-
-.game-card:hover {
-  transform: translateY(-4px);
-  background: rgba(0, 0, 0, 0.25);
-  border-color: #00a0ff;
-}
-
-.game-card:hover .game-card-icon {
-  color: #00a0ff;
+  text-align: center;
+  gap: 5px;
+  padding: 10px;
 }
 
 .game-card-icon {
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(244, 71, 134, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 26px;
   color: #f44786;
   flex-shrink: 0;
-  transition: color 0.3s ease;
+  transition: color 0.4s ease, background 0.4s ease;
 }
 
-.game-card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
+.game-card:hover .game-card-icon {
+  color: #ffffff;
+  background: #f44786;
+}
+
+.game-card.active .game-card-icon {
+  width: 70px;
+  height: 70px;
+  font-size: 36px;
 }
 
 .game-card-title {
   font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  color: #111111;
   margin: 0;
+  line-height: 1.2;
+  transition: color 0.4s ease;
+}
+
+.game-card:hover .game-card-title {
+  color: #f44786;
+}
+
+.game-card.active .game-card-title {
+  font-size: 26px;
 }
 
 .game-card-desc {
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  color: #666666;
   margin: 0;
+  transition: color 0.4s ease;
 }
 
-.game-card-arrow {
-  display: none;
+.game-card:hover .game-card-desc {
+  color: #f44786;
 }
+
+.game-card.active .game-card-desc {
+  font-size: 16px;
+}
+
+/* ── Navigation Dots ── */
+.carousel-nav-dots {
+  display: flex;
+  gap: 10px;
+  padding: 20px 0 28px;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-dot.active {
+  background: #f44786;
+  transform: scale(1.3);
+}
+

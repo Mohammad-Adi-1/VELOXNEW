@@ -174,49 +174,52 @@
 
       <!-- Viewport 3: Game Selection -->
       <div class="viewport-screen vp3-games">
-        <div class="games-heading-box">
-          <h2 class="games-heading">Select your Game</h2>
+        
+        <!-- Dynamic Game Info Display -->
+        <div class="active-game-info" id="activeGameInfo">
+          <h3 id="displayGameTitle">Spin & Win</h3>
+          <p id="displayGameDesc">Experience the thrill of the ultimate wheel of fortune! Spin daily for a chance to win massive rewards, exclusive tokens, and rare in-game items. Test your luck, build your fortune, and see where the wheel takes you today!</p>
         </div>
-        <div class="games-grid">
-          <div class="game-card">
-            <canvas class="liquid-canvas"></canvas>
-            <div class="game-card-content">
-              <div class="game-card-icon"><i class="ti ti-device-gamepad"></i></div>
-              <div class="game-card-info">
+
+        <div class="circular-carousel-wrapper">
+          <div class="circular-carousel" id="circularCarousel">
+            <!-- Visual orbit ring -->
+            <div class="orbit-ring"></div>
+            <!-- Game cards (positioned by JS on the orbit) -->
+            <div class="game-card" data-index="0">
+              <div class="game-card-content">
+                <div class="game-card-icon"><i class="ti ti-device-gamepad"></i></div>
                 <h3 class="game-card-title">Spin & Win</h3>
                 <p class="game-card-desc">Play Now</p>
               </div>
             </div>
-          </div>
-          <div class="game-card">
-            <canvas class="liquid-canvas"></canvas>
-            <div class="game-card-content">
-              <div class="game-card-icon"><i class="ti ti-cards"></i></div>
-              <div class="game-card-info">
+            <div class="game-card" data-index="1">
+              <div class="game-card-content">
+                <div class="game-card-icon"><i class="ti ti-cards"></i></div>
                 <h3 class="game-card-title">Card Flip</h3>
                 <p class="game-card-desc">Coming Soon</p>
               </div>
             </div>
-          </div>
-          <div class="game-card">
-            <canvas class="liquid-canvas"></canvas>
-            <div class="game-card-content">
-              <div class="game-card-icon"><i class="ti ti-dice-5"></i></div>
-              <div class="game-card-info">
+            <div class="game-card" data-index="2">
+              <div class="game-card-content">
+                <div class="game-card-icon"><i class="ti ti-dice-5"></i></div>
                 <h3 class="game-card-title">Dice Roll</h3>
                 <p class="game-card-desc">Coming Soon</p>
               </div>
             </div>
-          </div>
-          <div class="game-card">
-            <canvas class="liquid-canvas"></canvas>
-            <div class="game-card-content">
-              <div class="game-card-icon"><i class="ti ti-sword"></i></div>
-              <div class="game-card-info">
+            <div class="game-card" data-index="3">
+              <div class="game-card-content">
+                <div class="game-card-icon"><i class="ti ti-sword"></i></div>
                 <h3 class="game-card-title">Battle</h3>
                 <p class="game-card-desc">Coming Soon</p>
               </div>
             </div>
+          </div>
+          <div class="carousel-nav-dots" id="circularDots">
+            <span class="carousel-dot active" data-index="0"></span>
+            <span class="carousel-dot" data-index="1"></span>
+            <span class="carousel-dot" data-index="2"></span>
+            <span class="carousel-dot" data-index="3"></span>
           </div>
         </div>
       </div>
