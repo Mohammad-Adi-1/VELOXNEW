@@ -250,12 +250,39 @@
           </div>
         </div>
 
-        <!-- Join Button -->
-        <button class="join-btn" id="joinBtn">
-          <i class="ti ti-plus"></i>Join
+        <!-- Bet Configuration Box -->
+        <div class="bet-config-box">
+          <!-- Section 1: Bet Amount -->
+          <div class="bet-config-section">
+            <h4 class="bet-config-label">Bet Amount</h4>
+            <div class="bet-tabs" id="betAmountTabs">
+              <button class="bet-tab active" data-value="1">$1</button>
+              <button class="bet-tab" data-value="5">$5</button>
+              <button class="bet-tab" data-value="50">$50</button>
+              <button class="bet-tab" data-value="100">$100</button>
+            </div>
+            <button class="bet-select-btn" id="betAmountSelectBtn">Select</button>
+          </div>
+
+
+
+          <!-- Section 2: Players per Team -->
+          <div class="bet-config-section">
+            <h4 class="bet-config-label">Players / Team</h4>
+            <div class="bet-tabs" id="betPlayerTabs">
+              <button class="bet-tab active" data-value="1">1</button>
+              <button class="bet-tab" data-value="3">3</button>
+              <button class="bet-tab" data-value="5">5</button>
+              <button class="bet-tab" data-value="10">10</button>
+            </div>
+            <button class="bet-select-btn" id="betPlayerSelectBtn">Select</button>
+          </div>
+        </div>
+
+        <!-- Play Button -->
+        <button class="main-play-btn" id="mainPlayBtn">
+          <i class="ti ti-player-play-filled"></i> PLAY
         </button>
-
-
 
       </div>
 

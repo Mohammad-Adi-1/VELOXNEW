@@ -560,6 +560,42 @@
     setTimeout(updateActiveItem, 150);
   }
 
+  // ══════════════════════════════════════
+  // BET CONFIGURATION TABS
+  // ══════════════════════════════════════
+
+  function initBetTabs(containerId, selectBtnId, label) {
+    const container = document.getElementById(containerId);
+    const selectBtn = document.getElementById(selectBtnId);
+    if (!container || !selectBtn) return;
+
+    const tabs = container.querySelectorAll('.bet-tab');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    selectBtn.addEventListener('click', () => {
+      const activeTab = container.querySelector('.bet-tab.active');
+      if (activeTab) {
+        const value = activeTab.dataset.value;
+        selectBtn.textContent = '✓ Selected';
+        selectBtn.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+        setTimeout(() => {
+          selectBtn.textContent = 'Select';
+          selectBtn.style.background = '';
+        }, 1500);
+        console.log(`${label} selected:`, value);
+      }
+    });
+  }
+
+  initBetTabs('betAmountTabs', 'betAmountSelectBtn', 'Bet Amount');
+  initBetTabs('betPlayerTabs', 'betPlayerSelectBtn', 'Players/Team');
+
   // ── INIT ──
   const initApp = () => {
     setupCanvas();
