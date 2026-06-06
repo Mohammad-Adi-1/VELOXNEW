@@ -701,6 +701,13 @@ body {
   align-items: center;
 }
 
+/* ── Viewport 4: Full-width wheel screen ── */
+.vp4-wheel {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100% !important;
+}
+
 
 /* ── Team Stats Bar ── */
 .team-stats-box {
@@ -2036,9 +2043,9 @@ body {
 .game-card.active {
   width: 250px;
   height: 250px;
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.25),
-              0 0 50px rgba(255, 255, 255, 0.08);
+  border-color: #f44786;
+  box-shadow: 0 0 18px rgba(244, 71, 134, 0.55),
+              0 0 50px rgba(244, 71, 134, 0.15);
   z-index: 10;
   filter: none;
 }
@@ -2046,7 +2053,6 @@ body {
 .game-card:hover,
 .game-card.active:hover {
   background: #ffffff;
-  border-color: #f44786;
   box-shadow: 0 0 15px rgba(244, 71, 134, 0.6);
 }
 
