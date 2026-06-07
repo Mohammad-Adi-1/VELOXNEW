@@ -713,8 +713,8 @@ body {
 .bet-config-box {
   display: flex;
   align-items: stretch;
-  width: calc(100% - 16px);
-  max-width: 600px;
+  width: calc(100% - 8px);
+  max-width: 100%;
   margin: 12px auto 20px;
   background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(14px);
