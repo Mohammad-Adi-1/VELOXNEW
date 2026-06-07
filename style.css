@@ -39,7 +39,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   overflow-x: hidden;
-  background: #f8a2a2;
+  background: #ff0000;
   position: relative;
   z-index: 1;
   /* Safe area insets for notched phones */
