@@ -735,14 +735,14 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 12px;
   padding: 12px 8px;
-  background: rgb(255, 255, 255);
+  background: rgb(240, 156, 156);
 }
 
 .bet-config-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 18px;
   font-weight: 800;
-  color: #000000;
+  color: #fffefe;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin: 0 0 6px 0;
