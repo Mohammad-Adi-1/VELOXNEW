@@ -39,7 +39,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   overflow-x: hidden;
-  background: #ff0000;
+  background: #f8a2a2;
   position: relative;
   z-index: 1;
   /* Safe area insets for notched phones */
@@ -471,8 +471,8 @@ body {
   overflow: hidden;
   z-index: 1;
   padding-top: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 0px;
+  padding-right: 0px;
   padding-bottom: 24px;
 }
 
@@ -696,7 +696,7 @@ body {
   background: #f8a2a2;
   z-index: 4;
   width: 100%;
-  padding: 12px 20px 20px;
+  padding: 12px 0 20px;
   justify-content: flex-start;
   align-items: center;
 }
