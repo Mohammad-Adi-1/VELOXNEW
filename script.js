@@ -72,7 +72,7 @@
       ctx.closePath();
 
       // Slice fill — lighter shades of #F44786
-      ctx.fillStyle = i % 2 === 0 ? 'rgba(244, 71, 134, 0.28)' : 'rgba(244, 71, 134, 0.14)';
+      ctx.fillStyle = i % 2 === 0 ? 'rgba(255, 255, 255, 0.9)' : 'rgba(240, 240, 240, 0.9)';
       ctx.fill();
 
       // Reset alpha
@@ -95,7 +95,7 @@
       ctx.translate(shapeR, 0);
       ctx.rotate(-(currentAngle + midAngle));
 
-      ctx.strokeStyle = '#ffffff';
+      ctx.strokeStyle = '#ff0000';
       ctx.lineWidth = 10;
       ctx.fillStyle = 'rgba(0,0,0,0)';
       ctx.shadowColor = 'transparent';
@@ -134,7 +134,7 @@
       ctx.beginPath();
       ctx.arc(dx, dy, 3, 0, 2 * Math.PI);
       const glowing = isSpinning ? (Math.floor(Date.now() / 80) + i) % 4 === 0 : i % 2 === 0;
-      ctx.fillStyle = glowing ? '#fff' : 'rgba(255,255,255,0.3)';
+      ctx.fillStyle = glowing ? '#ff0000' : 'rgba(255,0,0,0.3)';
       ctx.fill();
     }
 
@@ -736,7 +736,7 @@
 
       // ── Solid opaque base fill (prevents background bleed-through) ──
       ctx.globalAlpha = 1;
-      ctx.fillStyle = isBlue ? '#002244' : isPink ? '#3a0016' : '#f44786';
+      ctx.fillStyle = isBlue ? '#002244' : isPink ? '#3a0016' : '#ffffff';
       ctx.fill();
 
       // ── Liquid fill gradient (layered on top) ──
@@ -754,11 +754,11 @@
         fillGrad.addColorStop(0.85, 'rgba(244, 71, 134, 1)');
         fillGrad.addColorStop(1, 'rgba(244, 71, 134, 1)');
       } else {
-        fillGrad.addColorStop(0, 'rgba(244, 71, 134, 1)');
-        fillGrad.addColorStop(0.3, 'rgba(244, 71, 134, 1)');
-        fillGrad.addColorStop(0.6, 'rgba(244, 71, 134, 1)');
-        fillGrad.addColorStop(0.85, 'rgba(244, 71, 134, 1)');
-        fillGrad.addColorStop(1, 'rgba(244, 71, 134, 1)');
+        fillGrad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        fillGrad.addColorStop(0.3, 'rgba(255, 255, 255, 1)');
+        fillGrad.addColorStop(0.6, 'rgba(255, 255, 255, 1)');
+        fillGrad.addColorStop(0.85, 'rgba(255, 255, 255, 1)');
+        fillGrad.addColorStop(1, 'rgba(255, 255, 255, 1)');
       }
       ctx.fillStyle = fillGrad;
       ctx.fill();
@@ -780,7 +780,7 @@
         } else if (isPink) {
           ctx.strokeStyle = `rgba(255, 150, 190, ${r.opacity})`;
         } else {
-          ctx.strokeStyle = `rgba(160, 20, 20, ${r.opacity})`;
+          ctx.strokeStyle = `rgba(220, 220, 220, ${r.opacity})`;
         }
         ctx.lineWidth = 1;
         ctx.stroke();
@@ -809,9 +809,9 @@
         ctx.shadowColor = 'rgba(244, 71, 134, 0.8)';
         ctx.shadowBlur = 10;
       } else {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.strokeStyle = 'rgba(220, 220, 220, 0.95)';
         ctx.lineWidth = 3;
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.7)';
+        ctx.shadowColor = 'rgba(200, 200, 200, 0.7)';
         ctx.shadowBlur = 8;
       }
       ctx.stroke();
