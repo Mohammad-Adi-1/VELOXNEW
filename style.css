@@ -713,14 +713,14 @@ body {
 .bet-config-box {
   display: flex;
   align-items: stretch;
-  width: 92%;
-  max-width: 440px;
+  width: calc(100% - 16px);
+  max-width: 600px;
   margin: 12px auto 20px;
-  background: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: none;
-  border-radius: 18px;
+  border-radius: 16px;
   min-height: 210px;
   gap: 4px;
 }
@@ -733,7 +733,7 @@ body {
   justify-content: center;
   gap: 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 12px 8px;
   background: rgb(255, 255, 255);
 }
