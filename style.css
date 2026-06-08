@@ -702,11 +702,8 @@ body {
   align-items: center;
 }
 
-/* ── Viewport 4: Full-width wheel screen ── */
 .vp4-wheel {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
+  padding: 0 !important;
   width: 100% !important;
   background: #ff0000 !important;
 }
@@ -715,7 +712,7 @@ body {
 .bottom-action-container {
   width: 100%;
   background: #ffffff;
-  padding: 20px 0;
+  padding: 0;
   margin-top: auto;
   display: flex;
   flex-direction: column;
@@ -1004,11 +1001,10 @@ body {
   color: #ffffff;
 }
 
-/* ── Main Play Button ── */
 .main-play-btn {
   width: 50%;
   max-width: 340px;
-  margin: 0 auto 12px;
+  margin: 0 auto;
   background: #000000;
   color: #fff2f2;
   border : solid 1px rgb(85, 82, 82);
