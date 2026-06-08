@@ -704,7 +704,7 @@ body {
 .vp4-wheel {
   padding: 0 !important;
   width: 100% !important;
-  background: #ffffff !important;
+  background: #ff0000 !important;
 }
 
 /* ── Live Ticker ── */
@@ -761,7 +761,7 @@ body {
 /* ── Bottom Action Container ── */
 .bottom-action-container {
   width: 100%;
-  background: #ffffff;
+  background: #ff0000;
   padding: 0;
   margin-top: auto;
   display: flex;
@@ -1167,8 +1167,8 @@ body {
   width: 80%;
   max-width: 340px;
   margin : 3px auto auto auto;
-  background: #ff0000;
-  color: #fff2f2;
+  background: #0400ff;
+  color: #ffffff;
   border : solid 1px rgb(85, 82, 82);
   border-radius: 15px;
   padding: 12px 0;
