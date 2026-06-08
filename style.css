@@ -1891,7 +1891,7 @@ body {
   }
 
   .app-content {
-    padding: 8px 12px 8px;
+    padding: 0;
     gap: 10px;
   }
 
@@ -1921,7 +1921,7 @@ body {
   }
 
   .app-content {
-    padding: 10px 16px 8px;
+    padding: 0;
   }
 }
 
