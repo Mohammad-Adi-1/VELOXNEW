@@ -840,7 +840,7 @@ body {
   height: 100%;
   border: 1px solid #463c3c3d;
   border-radius: 14px;
-  background: rgba(36, 34, 34, 0.144);
+  background: rgba(26, 23, 23, 0.192);
   gap: 5px;
   padding: 10px;
   overflow: hidden;
@@ -1467,7 +1467,7 @@ body {
 .team-name-top {
   font-family: 'Game Of Squids', 'DM Sans', sans-serif;
   font-size: 22px;
-  color: #ffffff;
+  color: #000000;
   margin: 0;
   margin-top: 6px;
   margin-bottom: -10px;
@@ -2426,7 +2426,8 @@ body {
   padding-bottom: 0 !important;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
+  min-height: 100vh;
 }
 
 .games-heading-box {

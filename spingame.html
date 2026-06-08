@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Velox — Spin & Win</title>
+  <!-- Critical resource hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800;900&display=swap" rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
+</head>
+
+<body>
+
+  <!-- App Shell -->
+  <div class="app-shell">
+
+
+    <!-- Header -->
+    <div class="app-header">
+      <!-- Header Walking Animation -->
+      <dotlottie-player src="assets/walk.lottie" class="header-bg-lottie" background="transparent" speed="1" loop
+        autoplay></dotlottie-player>
+      <!-- Dark overlay so text stays readable -->
+      <div class="header-overlay"></div>
+
+      <div class="header-left">
+        <span class="brand-name">VELOX</span>
+      </div>
+      <!-- Pre-connection state -->
+      <div class="header-actions" id="headerPreConnect">
+        <button class="connect-btn" id="connectBtn">
+          <i class="ti ti-brand-telegram"></i> Connect
+        </button>
+      </div>
+      <!-- Post-connection state (hidden until connected) -->
+      <div class="header-actions header-connected hidden" id="headerPostConnect">
+        <button class="balance-btn" id="balanceBtn">
+          <i class="ti ti-plus"></i>
+          <span id="balanceAmount">0.00</span>
+          <span class="balance-label">USDT</span>
+        </button>
+        <div class="avatar" id="userAvatar">AK</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="app-content">
+
+      <!-- Viewport 4: Wheel + Join + Recent Wins -->
+      <div class="viewport-screen vp4-wheel">
+        <!-- Live Bets Ticker -->
+        <div class="live-ticker-container">
+          <div class="live-ticker-track">
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-win">+$1500</span> <span class="ticker-id">#4592</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-lose">-$50</span> <span class="ticker-id">#9123</span></div>
+            <div class="ticker-item"><i class="ti ti-square"></i> <span class="ticker-win">+$300</span> <span class="ticker-id">#2294</span></div>
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-lose">-$100</span> <span class="ticker-id">#8812</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-win">+$3000</span> <span class="ticker-id">#7734</span></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-win">+$1500</span> <span class="ticker-id">#4592</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-lose">-$50</span> <span class="ticker-id">#9123</span></div>
+            <div class="ticker-item"><i class="ti ti-square"></i> <span class="ticker-win">+$300</span> <span class="ticker-id">#2294</span></div>
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-lose">-$100</span> <span class="ticker-id">#8812</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-win">+$3000</span> <span class="ticker-id">#7734</span></div>
+          </div>
+        </div>
+        <!-- Wheel Section -->
+        <div class="wheel-section">
+
+          <!-- Pointer -->
+          <div class="wheel-pointer" id="wheelPointer">
+            <div class="pointer-ball">8</div>
+            <div class="pointer-arrow"></div>
+          </div>
+
+          <!-- Canvas Wheel -->
+          <div class="wheel-wrapper">
+            <div class="wheel-outer-ring">
+              <canvas id="wheelCanvas" width="600" height="600"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-action-container">
+          <!-- Bet Configuration Box -->
+          <div class="bet-config-box" id="betConfigBox">
+            <div class="bet-config-inner" id="betConfigInner">
+              
+              <!-- Front Face: Bet Amount -->
+              <div class="bet-config-front">
+                <div class="front-combined-box">
+                  <!-- Upper Half: Bet Configuration -->
+                  <div class="bet-amount-half">
+                    <div class="bet-config-section">
+                      <h4 class="bet-config-label">Bet & Win 3X!</h4>
+                      <div class="bet-tabs" id="betAmountTabs">
+                        <button class="bet-tab active" data-value="1">$1</button>
+                        <button class="bet-tab" data-value="5">$5</button>
+                        <button class="bet-tab" data-value="25">$25</button>
+                        <button class="bet-tab" data-value="100">$100</button>
+                        <button class="bet-tab" data-value="500">$500</button>
+                        <button class="bet-tab" data-value="1000">$1000</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Divider -->
+                  <div class="front-divider"></div>
+
+                  <!-- Lower Half: Team Selection -->
+                  <div class="team-selection-half">
+                    <div class="team-tabs">
+                      <div class="team-box">
+                        <button class="team-tab" data-team="square"><i class="ti ti-square"></i></button>
+                        <span class="team-name">SQUARE</span>
+                      </div>
+                      <div class="team-box">
+                        <button class="team-tab" data-team="triangle"><i class="ti ti-triangle"></i></button>
+                        <span class="team-name">TRIANGLE</span>
+                      </div>
+                      <div class="team-box">
+                        <button class="team-tab" data-team="circle"><i class="ti ti-circle"></i></button>
+                        <span class="team-name">CIRCLE</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Play Button -->
+                  <button class="main-play-btn" id="mainPlayBtn">
+                    <i class="ti ti-player-play-filled"></i> PLAY
+                  </button>
+                </div>
+              </div>
+              <!-- Back Face: Matchmaking -->
+              <div class="bet-config-back">
+                <div class="matchmaking-section">
+                  <h4 class="matchmaking-label">Matchmaking... <span id="matchCountdown">5</span>s</h4>
+                  <div class="match-players" id="matchPlayers">
+                    <!-- Slots will be filled by JS -->
+                    <div class="match-player" id="matchSlotCircle">
+                      <div class="mp-icon"><i class="ti ti-circle"></i></div>
+                      <div class="mp-id">Waiting...</div>
+                    </div>
+                    <div class="match-player" id="matchSlotTriangle">
+                      <div class="mp-icon"><i class="ti ti-triangle"></i></div>
+                      <div class="mp-id">Waiting...</div>
+                    </div>
+                    <div class="match-player" id="matchSlotSquare">
+                      <div class="mp-icon"><i class="ti ti-square"></i></div>
+                      <div class="mp-id">Waiting...</div>
+                    </div>
+                  </div>
+                  <!-- Added List and Win text -->
+                  <div class="match-list" id="matchList"></div>
+                  <div class="match-potential-win" id="matchPotentialWin">Potential Win: $--</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Team Info Popup -->
+    <div class="team-info-overlay" id="teamInfoOverlay">
+      <div class="team-info-popup" id="teamInfoPopup">
+        <div class="tip-header">
+          <div class="tip-title">
+            <i class="ti ti-users-group"></i>
+            <span>How to Join a Team</span>
+          </div>
+          <button class="tip-close-btn" id="teamInfoClose" aria-label="Close"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="tip-body">
+          <div class="tip-step">
+            <div class="tip-step-num">1</div>
+            <div class="tip-step-text">
+              <strong>Swipe to Browse</strong>
+              <span>Scroll left or right through the carousel to see all available teams — Circle, Triangle, and
+                Square.</span>
+            </div>
+          </div>
+          <div class="tip-step">
+            <div class="tip-step-num">2</div>
+            <div class="tip-step-text">
+              <strong>Pick Your Team</strong>
+              <span>Center a team card to activate it. The card will brighten and a <em>Select</em> button will
+                appear.</span>
+            </div>
+          </div>
+          <div class="tip-step">
+            <div class="tip-step-num">3</div>
+            <div class="tip-step-text">
+              <strong>Tap Select</strong>
+              <span>Press the <em>Select</em> button on the active card to lock in your team for this season.</span>
+            </div>
+          </div>
+          <div class="tip-step">
+            <div class="tip-step-num">4</div>
+            <div class="tip-step-text">
+              <strong>Spin &amp; Earn</strong>
+              <span>Head to the Spin Wheel and start earning USDT rewards. Team performance boosts your
+                multiplier!</span>
+            </div>
+          </div>
+          <div class="tip-note">
+            <i class="ti ti-alert-triangle"></i>
+            You can only join <strong>one team per season</strong>. Choose wisely!
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /app-shell -->
+
+  <!-- Crypto Deposit Modal -->
+  <div class="deposit-modal-overlay hidden" id="depositModal">
+    <div class="deposit-modal">
+      <div class="deposit-header">
+        <span class="deposit-title">Deposit USDT</span>
+        <button class="deposit-close" id="depositClose"><i class="ti ti-x"></i></button>
+      </div>
+      <div class="deposit-network-tabs">
+        <button class="net-tab active" data-net="TRC20">TRC20</button>
+        <button class="net-tab" data-net="ERC20">ERC20</button>
+        <button class="net-tab" data-net="BEP20">BEP20</button>
+      </div>
+      <div class="deposit-qr">
+        <div class="qr-placeholder">
+          <i class="ti ti-qrcode"></i>
+        </div>
+      </div>
+      <div class="deposit-address-box">
+        <span class="deposit-address" id="depositAddress">TQnXmZ9k3fVpA8uYrB2wJcLeH1dMsNqP6</span>
+        <button class="copy-btn" id="copyAddressBtn"><i class="ti ti-copy"></i></button>
+      </div>
+      <p class="deposit-note">⚠️ Send only USDT on the selected network. Min deposit: 1 USDT.</p>
+      <div class="deposit-balance-row">
+        <span class="deposit-bal-label">Current Balance</span>
+        <span class="deposit-bal-value"><span id="modalBalance">0.00</span> USDT</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reward Modal -->
+  <div class="reward-modal-overlay" id="rewardModal">
+    <div class="reward-modal">
+      <div class="reward-confetti-icon">🎉</div>
+      <h2 class="reward-title">Congratulations!</h2>
+      <p class="reward-subtitle">You won</p>
+      <div class="reward-prize" id="rewardPrize">500</div>
+      <button class="reward-claim-btn" id="claimBtn">Claim Reward</button>
+    </div>
+  </div>
+
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>

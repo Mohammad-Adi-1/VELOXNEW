@@ -28,24 +28,24 @@
   let currentMatchTeam = '';
   // ── DOM refs ──
   const canvas = document.getElementById('wheelCanvas');
-  const ctx = canvas.getContext('2d');
-  const spinBtn = document.getElementById('spinBtn');
+  const ctx = canvas ? canvas.getContext('2d') : null;
   const pointer = document.getElementById('wheelPointer');
-  const pointerBall = pointer.querySelector('.pointer-ball');
+  const pointerBall = pointer ? pointer.querySelector('.pointer-ball') : null;
   const rewardModal = document.getElementById('rewardModal');
   const rewardPrize = document.getElementById('rewardPrize');
   const claimBtn = document.getElementById('claimBtn');
   const winsList = document.getElementById('winsList');
   const confettiCanvas = document.getElementById('confettiCanvas');
-  const confCtx = confettiCanvas.getContext('2d');
+  const confCtx = confettiCanvas ? confettiCanvas.getContext('2d') : null;
 
   // ── HiDPI Canvas Setup ──
   function setupCanvas() {
+    if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
     const size = 600;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
-    ctx.scale(dpr, dpr);
+    if (ctx) ctx.scale(dpr, dpr);
   }
 
   // ══════════════════════════════════════
@@ -53,6 +53,7 @@
   // ══════════════════════════════════════
 
   function drawWheel() {
+    if (!ctx) return;
     const cx = 300, cy = 300, r = 290;
     ctx.clearRect(0, 0, 600, 600);
     ctx.save();
@@ -142,9 +143,9 @@
     ctx.beginPath();
     ctx.arc(0, 0, 48, 0, 2 * Math.PI);
     const innerGrd = ctx.createRadialGradient(0, 0, 10, 0, 0, 48);
-    innerGrd.addColorStop(0, '#d4a76a');
-    innerGrd.addColorStop(0.5, '#8b5e3c');
-    innerGrd.addColorStop(1, '#5a3520');
+    innerGrd.addColorStop(0, '#333333');
+    innerGrd.addColorStop(0.5, '#1a1a1a');
+    innerGrd.addColorStop(1, '#000000');
     ctx.fillStyle = innerGrd;
     ctx.fill();
     ctx.strokeStyle = 'rgba(255,255,255,0.2)';
@@ -176,7 +177,6 @@
     angularVelocity = 10 + Math.random() * 4; // 10–14 rad/s start
     spinsLeft--;
     pointerBall.textContent = Math.max(0, spinsLeft);
-    spinBtn.classList.add('disabled');
     animFrameId = requestAnimationFrame(animate);
   }
 
@@ -192,7 +192,7 @@
     currentAngle %= (2 * Math.PI);
 
     // Pointer bounce on slice crossing
-    const pointerAngle = ((3 * Math.PI / 2 - currentAngle) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+    const pointerAngle = (2 * Math.PI - (currentAngle % (2 * Math.PI))) % (2 * Math.PI);
     const sliceIdx = Math.floor(pointerAngle / SLICE_ANGLE) % SLICE_COUNT;
     if (sliceIdx !== lastSliceIndex && angularVelocity > 0.3) {
       lastSliceIndex = sliceIdx;
@@ -204,7 +204,6 @@
     if (angularVelocity < 0.005) {
       angularVelocity = 0;
       isSpinning = false;
-      spinBtn.classList.remove('disabled');
       resolveWin();
       return;
     }
@@ -218,7 +217,7 @@
   }
 
   function resolveWin() {
-    const pointerAngle = ((3 * Math.PI / 2 - currentAngle) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+    const pointerAngle = (2 * Math.PI - (currentAngle % (2 * Math.PI))) % (2 * Math.PI);
     const winIndex = Math.floor(pointerAngle / SLICE_ANGLE) % SLICE_COUNT;
     const prize = SLICES[winIndex];
 
@@ -389,15 +388,16 @@
   }
 
   // ── Hamburger Toggle ──
-  document.getElementById('hamburger').addEventListener('click', function () {
-    this.classList.toggle('open');
-  });
+  const hamburgerBtn = document.getElementById('hamburger');
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', function () {
+      this.classList.toggle('open');
+    });
+  }
 
   // ══════════════════════════════════════
   // EVENT LISTENERS
   // ══════════════════════════════════════
-
-  spinBtn.addEventListener('click', startSpin);
 
   claimBtn.addEventListener('click', () => {
     rewardModal.classList.remove('show');
@@ -672,19 +672,10 @@
       mainPlayBtn.classList.add('disabled');
       
       // Find selected team
-      const carouselContainer = document.getElementById('teamCarousel');
       let selectedTeam = 'circle'; // Default fallback
-      if (carouselContainer) {
-        // Find center-most item or active item
-        const activeItems = Array.from(carouselContainer.querySelectorAll('.carousel-item.active'));
-        // Usually there's one active, but clones might complicate things.
-        const activeItem = activeItems.find(item => !item.classList.contains('clone')) || activeItems[0];
-        
-        if (activeItem) {
-          if (activeItem.classList.contains('team-triangle')) selectedTeam = 'triangle';
-          else if (activeItem.classList.contains('team-square')) selectedTeam = 'square';
-          else if (activeItem.classList.contains('team-circle')) selectedTeam = 'circle';
-        }
+      const activeTeamTab = document.querySelector('.team-tab.active');
+      if (activeTeamTab && activeTeamTab.dataset.team) {
+        selectedTeam = activeTeamTab.dataset.team;
       }
 
       // Find selected bet amount
