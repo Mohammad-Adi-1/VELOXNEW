@@ -24,8 +24,8 @@
   let recentWins = [];
   let animFrameId = null;
   let lastTimestamp = null;
-
-
+  let currentMatchBet = 0;
+  let currentMatchTeam = '';
   // ── DOM refs ──
   const canvas = document.getElementById('wheelCanvas');
   const ctx = canvas.getContext('2d');
@@ -222,9 +222,27 @@
     const winIndex = Math.floor(pointerAngle / SLICE_ANGLE) % SLICE_COUNT;
     const prize = SLICES[winIndex];
 
+    // Check win/loss
+    const winningTeams = ['triangle', 'circle', 'square']; // Match drawWheel order
+    const winningTeam = winningTeams[winIndex];
+    
+    const matchPotentialWin = document.getElementById('matchPotentialWin');
+    if (matchPotentialWin) {
+      if (currentMatchTeam === winningTeam) {
+        matchPotentialWin.innerHTML = `You Won! <br> <span style="font-size:24px">+$${currentMatchBet * 3}</span>`;
+        matchPotentialWin.classList.add('win');
+      } else {
+        matchPotentialWin.innerHTML = `You Lost! <br> <span style="font-size:24px">-$${currentMatchBet}</span>`;
+        matchPotentialWin.classList.add('lose');
+      }
+    }
+
     rewardPrize.textContent = prize.label.replace('\n', ' ');
-    rewardModal.classList.add('show');
-    launchConfetti();
+    // Add a slight delay before showing modal so they can see the card win state
+    setTimeout(() => {
+      rewardModal.classList.add('show');
+      launchConfetti();
+    }, 1500);
 
     // Store win
     recentWins.unshift({
@@ -363,6 +381,18 @@
     rewardModal.classList.remove('show');
     if (confettiAnimId) cancelAnimationFrame(confettiAnimId);
     confCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    
+    // Flip back bet config box
+    const betConfigInner = document.getElementById('betConfigInner');
+    if (betConfigInner) {
+      betConfigInner.classList.remove('flipped');
+    }
+    
+    // Re-enable play button
+    const mainPlayBtn = document.getElementById('mainPlayBtn');
+    if (mainPlayBtn) {
+      mainPlayBtn.classList.remove('disabled');
+    }
   });
 
 
@@ -567,7 +597,7 @@
   function initBetTabs(containerId, selectBtnId, label) {
     const container = document.getElementById(containerId);
     const selectBtn = document.getElementById(selectBtnId);
-    if (!container || !selectBtn) return;
+    if (!container) return;
 
     const tabs = container.querySelectorAll('.bet-tab');
 
@@ -575,32 +605,172 @@
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
+        
+        // Optional: auto-trigger select behavior
+        const value = tab.dataset.value;
+        console.log(`${label} selected:`, value);
       });
     });
-
-    selectBtn.addEventListener('click', () => {
-      const activeTab = container.querySelector('.bet-tab.active');
-      if (activeTab) {
-        const value = activeTab.dataset.value;
-        selectBtn.textContent = '✓ Selected';
-        selectBtn.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
-        setTimeout(() => {
-          selectBtn.textContent = 'Select';
-          selectBtn.style.background = '';
-        }, 1500);
-        console.log(`${label} selected:`, value);
-      }
-    });
+    
+    if (selectBtn) {
+      selectBtn.addEventListener('click', () => {
+        const activeTab = container.querySelector('.bet-tab.active');
+        if (activeTab) {
+          const value = activeTab.dataset.value;
+          selectBtn.textContent = '✓ Selected';
+          selectBtn.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+          setTimeout(() => {
+            selectBtn.textContent = 'Select';
+            selectBtn.style.background = '';
+          }, 1500);
+          console.log(`${label} confirmed via button:`, value);
+        }
+      });
+    }
   }
 
   initBetTabs('betAmountTabs', 'betAmountSelectBtn', 'Bet Amount');
-  initBetTabs('betPlayerTabs', 'betPlayerSelectBtn', 'Players/Team');
+  
 
   // ── INIT ──
   const initApp = () => {
     setupCanvas();
     drawWheel();
+    renderWins();
   };
+  
+  // ── Matchmaking Logic ──
+  const mainPlayBtn = document.getElementById('mainPlayBtn');
+  const betConfigInner = document.getElementById('betConfigInner');
+  const matchCountdown = document.getElementById('matchCountdown');
+  
+  if (mainPlayBtn && betConfigInner) {
+    mainPlayBtn.addEventListener('click', () => {
+      if (mainPlayBtn.classList.contains('disabled')) return;
+      mainPlayBtn.classList.add('disabled');
+      
+      // Find selected team
+      const carouselContainer = document.getElementById('teamCarousel');
+      let selectedTeam = 'circle'; // Default fallback
+      if (carouselContainer) {
+        // Find center-most item or active item
+        const activeItems = Array.from(carouselContainer.querySelectorAll('.carousel-item.active'));
+        // Usually there's one active, but clones might complicate things.
+        const activeItem = activeItems.find(item => !item.classList.contains('clone')) || activeItems[0];
+        
+        if (activeItem) {
+          if (activeItem.classList.contains('team-triangle')) selectedTeam = 'triangle';
+          else if (activeItem.classList.contains('team-square')) selectedTeam = 'square';
+          else if (activeItem.classList.contains('team-circle')) selectedTeam = 'circle';
+        }
+      }
+
+      // Find selected bet amount
+      const activeBetTab = document.querySelector('#betAmountTabs .bet-tab.active');
+      currentMatchBet = activeBetTab ? parseInt(activeBetTab.dataset.value) : 1;
+      currentMatchTeam = selectedTeam;
+
+      // Reset slots
+      const matchSlotCircle = document.getElementById('matchSlotCircle');
+      const matchSlotTriangle = document.getElementById('matchSlotTriangle');
+      const matchSlotSquare = document.getElementById('matchSlotSquare');
+      
+      const slots = {
+        circle: matchSlotCircle,
+        triangle: matchSlotTriangle,
+        square: matchSlotSquare
+      };
+
+      Object.values(slots).forEach(slot => {
+        if(slot) {
+          slot.classList.remove('joined');
+          const idEl = slot.querySelector('.mp-id');
+          if (idEl) idEl.textContent = 'Waiting...';
+        }
+      });
+
+      const matchList = document.getElementById('matchList');
+      const matchPotentialWin = document.getElementById('matchPotentialWin');
+      
+      if (matchList) {
+        matchList.innerHTML = '';
+      }
+      if (matchPotentialWin) {
+        matchPotentialWin.textContent = `Potential Win: $${currentMatchBet * 3}`;
+        matchPotentialWin.className = 'match-potential-win'; // reset classes
+      }
+
+      // Fill user slot
+      const userSlot = slots[selectedTeam];
+      if (userSlot) {
+        userSlot.classList.add('joined');
+        const idEl = userSlot.querySelector('.mp-id');
+        if (idEl) idEl.textContent = 'You';
+        
+        if (matchList) {
+          matchList.insertAdjacentHTML('beforeend', `
+            <div class="match-list-item">
+              <span class="ml-id" style="font-weight:800">You</span>
+              <span class="ml-team"><i class="ti ti-${selectedTeam}"></i> ${selectedTeam.toUpperCase()}</span>
+              <span class="ml-bet">$${currentMatchBet}</span>
+            </div>
+          `);
+        }
+      }
+
+      // Start flip animation
+      betConfigInner.classList.add('flipped');
+
+      let seconds = 5;
+      if (matchCountdown) matchCountdown.textContent = seconds;
+      
+      const otherTeams = ['circle', 'triangle', 'square'].filter(t => t !== selectedTeam);
+      
+      // Simulate bots joining randomly within the 5 seconds
+      otherTeams.forEach((team) => {
+        setTimeout(() => {
+          const slot = slots[team];
+          if (slot) {
+            slot.classList.add('joined');
+            const idEl = slot.querySelector('.mp-id');
+            if (idEl) {
+              const botId = '#' + Math.floor(1000 + Math.random() * 9000);
+              idEl.textContent = botId;
+              
+              const matchList = document.getElementById('matchList');
+              if (matchList) {
+                matchList.insertAdjacentHTML('beforeend', `
+                  <div class="match-list-item">
+                    <span class="ml-id">${botId}</span>
+                    <span class="ml-team"><i class="ti ti-${team}"></i> ${team.toUpperCase()}</span>
+                    <span class="ml-bet">$${currentMatchBet}</span>
+                  </div>
+                `);
+              }
+            }
+          }
+        }, 1000 + Math.random() * 3000); // Random join between 1s and 4s
+      });
+
+      // Countdown interval
+      const interval = setInterval(() => {
+        seconds--;
+        if (seconds > 0) {
+          if (matchCountdown) matchCountdown.textContent = seconds;
+        } else {
+          clearInterval(interval);
+          if (matchCountdown) matchCountdown.textContent = 0;
+          
+          // Trigger the actual spin after a short delay so user sees 0s
+          setTimeout(() => {
+            startSpin();
+          }, 300);
+        }
+      }, 1000);
+    });
+  }
+
+
 
   if ('requestIdleCallback' in window) {
     requestIdleCallback(initApp);

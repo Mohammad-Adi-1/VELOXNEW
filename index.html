@@ -250,39 +250,59 @@
           </div>
         </div>
 
-        <!-- Bet Configuration Box -->
-        <div class="bet-config-box">
-          <!-- Section 1: Bet Amount -->
-          <div class="bet-config-section">
-            <h4 class="bet-config-label">Bet Amount</h4>
-            <div class="bet-tabs" id="betAmountTabs">
-              <button class="bet-tab active" data-value="1">$1</button>
-              <button class="bet-tab" data-value="5">$5</button>
-              <button class="bet-tab" data-value="50">$50</button>
-              <button class="bet-tab" data-value="100">$100</button>
+        <div class="bottom-action-container">
+          <!-- Bet Configuration Box -->
+          <div class="bet-config-box" id="betConfigBox">
+            <div class="bet-config-inner" id="betConfigInner">
+              
+              <!-- Front Face: Bet Amount -->
+              <div class="bet-config-front">
+                <div class="bet-config-section">
+                  <h4 class="bet-config-label">Bet & Win 3X!</h4>
+                  <div class="bet-tabs" id="betAmountTabs">
+                    <button class="bet-tab active" data-value="1">$1</button>
+                    <button class="bet-tab" data-value="5">$5</button>
+                    <button class="bet-tab" data-value="25">$25</button>
+                    <button class="bet-tab" data-value="100">$100</button>
+                    <button class="bet-tab" data-value="500">$500</button>
+                    <button class="bet-tab" data-value="1000">$1000</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Back Face: Matchmaking -->
+              <div class="bet-config-back">
+                <div class="matchmaking-section">
+                  <h4 class="matchmaking-label">Matchmaking... <span id="matchCountdown">5</span>s</h4>
+                  <div class="match-players" id="matchPlayers">
+                    <!-- Slots will be filled by JS -->
+                    <div class="match-player" id="matchSlotCircle">
+                      <div class="mp-icon"><i class="ti ti-circle"></i></div>
+                      <div class="mp-id">Waiting...</div>
+                    </div>
+                    <div class="match-player" id="matchSlotTriangle">
+                      <div class="mp-icon"><i class="ti ti-triangle"></i></div>
+                      <div class="mp-id">Waiting...</div>
+                    </div>
+                    <div class="match-player" id="matchSlotSquare">
+                      <div class="mp-icon"><i class="ti ti-square"></i></div>
+                      <div class="mp-id">Waiting...</div>
+                    </div>
+                  </div>
+                  <!-- Added List and Win text -->
+                  <div class="match-list" id="matchList"></div>
+                  <div class="match-potential-win" id="matchPotentialWin">Potential Win: $--</div>
+                </div>
+              </div>
+
             </div>
-            <button class="bet-select-btn" id="betAmountSelectBtn">Select</button>
           </div>
 
-
-
-          <!-- Section 2: Players per Team -->
-          <div class="bet-config-section">
-            <h4 class="bet-config-label">Players / Team</h4>
-            <div class="bet-tabs" id="betPlayerTabs">
-              <button class="bet-tab active" data-value="1">1</button>
-              <button class="bet-tab" data-value="3">3</button>
-              <button class="bet-tab" data-value="5">5</button>
-              <button class="bet-tab" data-value="10">10</button>
-            </div>
-            <button class="bet-select-btn" id="betPlayerSelectBtn">Select</button>
-          </div>
+          <!-- Play Button -->
+          <button class="main-play-btn" id="mainPlayBtn">
+            <i class="ti ti-player-play-filled"></i> PLAY
+          </button>
         </div>
-
-        <!-- Play Button -->
-        <button class="main-play-btn" id="mainPlayBtn">
-          <i class="ti ti-player-play-filled"></i> PLAY
-        </button>
 
       </div>
 
