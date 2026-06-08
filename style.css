@@ -704,7 +704,7 @@ body {
 .vp4-wheel {
   padding: 0 !important;
   width: 100% !important;
-  background: #ff0000 !important;
+  background: #ffffff !important;
 }
 
 /* ── Live Ticker ── */
@@ -713,7 +713,7 @@ body {
   overflow: hidden;
   background: rgba(0, 0, 0, 0.4);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 0;
+  padding: 4px 0;
   display: flex;
   white-space: nowrap;
 }
@@ -780,10 +780,11 @@ body {
   display: flex;
   width: 92%;
   max-width: 440px;
-  margin: 12px auto 20px;
+  margin: 12px auto 3px;
   perspective: 1000px; /* 3D effect */
   flex: 1;
   min-height: 0;
+
 }
 
 .bet-config-inner {
@@ -837,26 +838,26 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border: 1px solid #46424200;
+  border: 1px solid #463c3c3d;
   border-radius: 14px;
-  background: rgba(128, 128, 128, 0);
+  background: rgba(36, 34, 34, 0.144);
   gap: 5px;
+  padding: 10px;
   overflow: hidden;
 }
 
 .team-selection-half {
-  padding: 3px 10px;
+  padding: 3px 10px ;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2px;
-  border: solid 1px rgb(0, 0, 0);
+  border: solid 1px rgba(0, 0, 0, 0);
   border-radius: 15px;
-  background-color: #0f0f0fcc;
+  background-color:rgb(255, 255, 255) ;
   width: 100%;
 }
-
 
 
 .team-tabs {
@@ -874,19 +875,34 @@ body {
   gap: 2px;
   width: 100%;
   padding: 3px 4px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid #464242;
+  background: rgb(255, 255, 255);
+  border: 1px solid #a8080800;
   border-radius: 12px;
+  transition: background 0.2s ease;
 }
+
+.team-box:has(.team-tab.active) {
+  background: #131212;
+}
+
+.team-box:hover{
+  border: solid 1px black;
+}
+
+.team-box:has(.team-tab.active) .team-name {
+  color: #ffffff;
+}
+
 
 .team-name {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 800;
-  color: #ffffff;
+  color: #000000;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
 
 .team-tab {
   background: rgb(255, 255, 255);
@@ -911,9 +927,9 @@ body {
 }
 
 .team-tab:hover, .team-tab.active {
-  background: #ff0000;
-  color: rgb(255, 255, 255);
-  border-color: #ffffff;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  border-color: #000000;
 }
 
 .front-divider {
@@ -930,7 +946,7 @@ body {
   padding: 3px 10px;
   border: solid 1px rgb(0, 0, 0);
   border-radius: 15px;
-  background-color: #0f0f0fcc;
+  background-color:rgb(255, 255, 255) ;
 }
 
 .bet-config-section {
@@ -956,9 +972,9 @@ body {
   border: 1px solid #464242;
   border-radius: 14px;
   padding: 6px 15px;
-  background: #0f0f0fcc;
+ background-color:rgba(46, 41, 41, 0.822) ;
   overflow: hidden;
-  gap: 15px;
+  gap: 10px;
 }
 
 .matchmaking-label {
@@ -979,7 +995,7 @@ body {
 .match-players {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -989,11 +1005,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: #111111;
+  background: #050505;
   border: 1px solid #333333;
   border-radius: 8px;
-  padding: 10px;
-  min-width: 65px;
+  padding: 5px;
+  min-width: 45px;
   aspect-ratio: 1;
   transition: all 0.3s ease;
 }
@@ -1013,14 +1029,14 @@ body {
 }
 
 .mp-icon {
-  font-size: 26px;
+  font-size: 18px;
   color: #555555;
   transition: color 0.3s ease;
 }
 
 .mp-id {
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   color: #888888;
   transition: color 0.3s ease;
@@ -1038,7 +1054,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1a1a1a;
+  background: #353232c7;
   padding: 6px 12px;
   border: 1px solid #333;
   border-radius: 4px;
@@ -1095,9 +1111,9 @@ body {
 
 .bet-tab {
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  color: #333;
+  color: #000000;
   background: #ffffff;
   border: 1px solid #000000;
   border-radius: 10px;
@@ -1109,14 +1125,13 @@ body {
 
 .bet-tab:hover {
   background: #ffffff;
-  border-color: rgba(244, 71, 134, 0.4);
+  border-color: rgb(0, 0, 0);
 }
 
 .bet-tab.active {
-  background: #ff0000;
+  background: #000000;
   border-color: #eeecec;
   color: #ffffff;
-  box-shadow: 0 0 10px rgba(244, 71, 134, 0.4);
 }
 
 .bet-select-btn {
@@ -1151,8 +1166,8 @@ body {
 .main-play-btn {
   width: 80%;
   max-width: 340px;
-  margin: 0 auto;
-  background: #000000;
+  margin : 3px auto auto auto;
+  background: #ff0000;
   color: #fff2f2;
   border : solid 1px rgb(85, 82, 82);
   border-radius: 15px;
@@ -1180,7 +1195,7 @@ body {
   background: #000000;
   border-color: #ffffff;
   color: #ffffff;
-  box-shadow: 0 8px 25px rgba(244, 71, 134, 0.55);
+  
 }
 
 .main-play-btn:active {
