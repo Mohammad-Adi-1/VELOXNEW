@@ -1299,7 +1299,14 @@
 
   // ── Card click ──
   cards.forEach((card, i) => {
-    card.addEventListener('click', () => goTo(i));
+    card.addEventListener('click', () => {
+      const titleEl = card.querySelector('.game-card-title');
+      if (titleEl && titleEl.textContent.trim() === 'Spin & Win') {
+        window.location.href = 'spingame.html';
+      } else {
+        goTo(i);
+      }
+    });
   });
 
   // ── Keyboard Navigation ──
