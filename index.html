@@ -226,9 +226,22 @@
 
       <!-- Viewport 4: Wheel + Join + Recent Wins -->
       <div class="viewport-screen vp4-wheel">
-
-
-
+        <!-- Live Bets Ticker -->
+        <div class="live-ticker-container">
+          <div class="live-ticker-track">
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-win">+$1500</span> <span class="ticker-id">#4592</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-lose">-$50</span> <span class="ticker-id">#9123</span></div>
+            <div class="ticker-item"><i class="ti ti-square"></i> <span class="ticker-win">+$300</span> <span class="ticker-id">#2294</span></div>
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-lose">-$100</span> <span class="ticker-id">#8812</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-win">+$3000</span> <span class="ticker-id">#7734</span></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-win">+$1500</span> <span class="ticker-id">#4592</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-lose">-$50</span> <span class="ticker-id">#9123</span></div>
+            <div class="ticker-item"><i class="ti ti-square"></i> <span class="ticker-win">+$300</span> <span class="ticker-id">#2294</span></div>
+            <div class="ticker-item"><i class="ti ti-triangle"></i> <span class="ticker-lose">-$100</span> <span class="ticker-id">#8812</span></div>
+            <div class="ticker-item"><i class="ti ti-circle"></i> <span class="ticker-win">+$3000</span> <span class="ticker-id">#7734</span></div>
+          </div>
+        </div>
         <!-- Wheel Section -->
         <div class="wheel-section">
 
@@ -257,19 +270,44 @@
               
               <!-- Front Face: Bet Amount -->
               <div class="bet-config-front">
-                <div class="bet-config-section">
-                  <h4 class="bet-config-label">Bet & Win 3X!</h4>
-                  <div class="bet-tabs" id="betAmountTabs">
-                    <button class="bet-tab active" data-value="1">$1</button>
-                    <button class="bet-tab" data-value="5">$5</button>
-                    <button class="bet-tab" data-value="25">$25</button>
-                    <button class="bet-tab" data-value="100">$100</button>
-                    <button class="bet-tab" data-value="500">$500</button>
-                    <button class="bet-tab" data-value="1000">$1000</button>
+                <div class="front-combined-box">
+                  <!-- Upper Half: Bet Configuration -->
+                  <div class="bet-amount-half">
+                    <div class="bet-config-section">
+                      <h4 class="bet-config-label">Bet & Win 3X!</h4>
+                      <div class="bet-tabs" id="betAmountTabs">
+                        <button class="bet-tab active" data-value="1">$1</button>
+                        <button class="bet-tab" data-value="5">$5</button>
+                        <button class="bet-tab" data-value="25">$25</button>
+                        <button class="bet-tab" data-value="100">$100</button>
+                        <button class="bet-tab" data-value="500">$500</button>
+                        <button class="bet-tab" data-value="1000">$1000</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Divider -->
+                  <div class="front-divider"></div>
+
+                  <!-- Lower Half: Team Selection -->
+                  <div class="team-selection-half">
+                    <div class="team-tabs">
+                      <div class="team-box">
+                        <button class="team-tab" data-team="square"><i class="ti ti-square"></i></button>
+                        <span class="team-name">SQUARE</span>
+                      </div>
+                      <div class="team-box">
+                        <button class="team-tab" data-team="triangle"><i class="ti ti-triangle"></i></button>
+                        <span class="team-name">TRIANGLE</span>
+                      </div>
+                      <div class="team-box">
+                        <button class="team-tab" data-team="circle"><i class="ti ti-circle"></i></button>
+                        <span class="team-name">CIRCLE</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
               <!-- Back Face: Matchmaking -->
               <div class="bet-config-back">
                 <div class="matchmaking-section">

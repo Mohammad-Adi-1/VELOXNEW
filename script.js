@@ -227,8 +227,10 @@
     const winningTeam = winningTeams[winIndex];
     
     const matchPotentialWin = document.getElementById('matchPotentialWin');
+    const isWin = currentMatchTeam === winningTeam;
+
     if (matchPotentialWin) {
-      if (currentMatchTeam === winningTeam) {
+      if (isWin) {
         matchPotentialWin.innerHTML = `You Won! <br> <span style="font-size:24px">+$${currentMatchBet * 3}</span>`;
         matchPotentialWin.classList.add('win');
       } else {
@@ -237,11 +239,31 @@
       }
     }
 
-    rewardPrize.textContent = prize.label.replace('\n', ' ');
+    const rewardTitle = rewardModal.querySelector('.reward-title');
+    const rewardSubtitle = rewardModal.querySelector('.reward-subtitle');
+    const rewardConfettiIcon = rewardModal.querySelector('.reward-confetti-icon');
+    const claimBtn = document.getElementById('claimBtn');
+
+    if (isWin) {
+      if (rewardTitle) rewardTitle.textContent = "Congratulations!";
+      if (rewardSubtitle) rewardSubtitle.textContent = "You won";
+      rewardPrize.textContent = `+$${currentMatchBet * 3}`;
+      rewardPrize.style.color = "#00ff00";
+      if (rewardConfettiIcon) rewardConfettiIcon.textContent = "🎉";
+      if (claimBtn) claimBtn.textContent = "Claim Reward";
+    } else {
+      if (rewardTitle) rewardTitle.textContent = "Almost Had It!";
+      if (rewardSubtitle) rewardSubtitle.textContent = "Don't give up, try your luck again!";
+      rewardPrize.textContent = `-$${currentMatchBet}`;
+      rewardPrize.style.color = "#ff0000";
+      if (rewardConfettiIcon) rewardConfettiIcon.textContent = "💪";
+      if (claimBtn) claimBtn.textContent = "Try Again";
+    }
+
     // Add a slight delay before showing modal so they can see the card win state
     setTimeout(() => {
       rewardModal.classList.add('show');
-      launchConfetti();
+      if (isWin) launchConfetti();
     }, 1500);
 
     // Store win
@@ -1305,5 +1327,10 @@
   renderCards();
 })();
 
-
-
+// ── Team Selection Tabs ──
+document.querySelectorAll('.team-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.team-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});

@@ -39,7 +39,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   overflow-x: hidden;
-  background: #00fd22;
+  background: #fd0000;
   position: relative;
   z-index: 1;
   /* Safe area insets for notched phones */
@@ -462,7 +462,6 @@ body {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  border: 4px solid orange;
 }
 
 /* ── Viewport 1 Hero ── */
@@ -705,7 +704,58 @@ body {
 .vp4-wheel {
   padding: 0 !important;
   width: 100% !important;
-  background: blue !important;
+  background: #ff0000 !important;
+}
+
+/* ── Live Ticker ── */
+.live-ticker-container {
+  width: 100%;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 0;
+  display: flex;
+  white-space: nowrap;
+}
+
+.live-ticker-track {
+  display: flex;
+  gap: 40px;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ticker-item i {
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.ticker-win {
+  color: #00ff00;
+}
+
+.ticker-lose {
+  color: #ff0000;
+}
+
+.ticker-id {
+  color: #aaaaaa;
+  font-weight: 500;
 }
 
 /* ── Bottom Action Container ── */
@@ -759,6 +809,7 @@ body {
 
 .bet-config-front {
   position: relative;
+  height: 100%;
 }
 
 .bet-config-back {
@@ -781,20 +832,113 @@ body {
   height: 100%;
 }
 
-.bet-config-section {
+.front-combined-box {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #46424200;
+  border-radius: 14px;
+  background: rgba(128, 128, 128, 0);
+  gap: 5px;
+  overflow: hidden;
+}
+
+.team-selection-half {
+  padding: 12px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  border: solid 1px rgb(0, 0, 0);
+  border-radius: 15px;
+  background-color: #0f0f0fcc;
+}
+
+
+
+.team-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px; /* match bet-tabs gap */
+  width: 100%;
+  justify-items: center;
+}
+
+.team-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 4px;
+  background: rgba(0, 0, 0, 0.3);
   border: 1px solid #464242;
-  border-radius: 14px;
-  padding: 12px 8px;
-  background: #ffffff;
-  height: 100%;
-  overflow-y: auto;
-  scrollbar-width: none;
+  border-radius: 12px;
+}
+
+.team-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.team-tab {
+  background: rgb(255, 255, 255);
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 12px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 75%;
+  aspect-ratio: 1;
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+.team-tab i {
+  font-size: 70cqw;
+  line-height: 1;
+}
+
+.team-tab:hover, .team-tab.active {
+  background: #ff0000;
+  color: rgb(255, 255, 255);
+  border-color: #ffffff;
+}
+
+.front-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.bet-amount-half {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: solid 1px rgb(0, 0, 0);
+  border-radius: 15px;
+  background-color: #0f0f0fcc;
+}
+
+.bet-config-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 .bet-config-section::-webkit-scrollbar {
   display: none;
@@ -810,15 +954,15 @@ body {
   height: 100%;
   border: 1px solid #464242;
   border-radius: 14px;
-  padding: 10px;
-  background: #000000;
+  padding: 6px 15px;
+  background: #0f0f0fcc;
   overflow: hidden;
   gap: 15px;
 }
 
 .matchmaking-label {
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
   color: #ffffff;
   text-transform: uppercase;
@@ -828,13 +972,13 @@ body {
 
 #matchCountdown {
   color: #ff0000;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .match-players {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 20px;
   width: 100%;
 }
 
@@ -842,12 +986,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   background: #111111;
   border: 1px solid #333333;
   border-radius: 8px;
-  padding: 6px;
+  padding: 10px;
   min-width: 65px;
+  aspect-ratio: 1;
   transition: all 0.3s ease;
 }
 
@@ -866,14 +1012,14 @@ body {
 }
 
 .mp-icon {
-  font-size: 18px;
+  font-size: 26px;
   color: #555555;
   transition: color 0.3s ease;
 }
 
 .mp-id {
   font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   color: #888888;
   transition: color 0.3s ease;
@@ -892,12 +1038,12 @@ body {
   align-items: center;
   justify-content: space-between;
   background: #1a1a1a;
-  padding: 4px 8px;
+  padding: 6px 12px;
   border: 1px solid #333;
   border-radius: 4px;
   color: #ffffff;
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .match-list-item .ml-team i {
@@ -908,7 +1054,7 @@ body {
 .match-potential-win {
   margin: 0;
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 800;
   color: #ffffff;
   text-align: center;
@@ -952,7 +1098,7 @@ body {
   font-weight: 700;
   color: #333;
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.733);
+  border: 1px solid #000000;
   border-radius: 10px;
   padding: 7px 4px;
   cursor: pointer;
@@ -1467,8 +1613,8 @@ body {
 }
 
 .wheel-outer-ring {
-  width: min(72vw, 300px);
-  height: min(72vw, 300px);
+  width: min(55vw, 240px) !important;
+  height: min(55vw, 240px) !important;
   border-radius: 50%;
   padding: 10px; /* Thicker border */
   position: relative;
@@ -1498,8 +1644,8 @@ body {
 }
 
 #wheelCanvas {
-  width: calc(min(72vw, 300px) - 20px);
-  height: calc(min(72vw, 300px) - 20px);
+  width: calc(min(55vw, 240px) - 20px) !important;
+  height: calc(min(55vw, 240px) - 20px) !important;
   border-radius: 50%;
   position: relative;
   z-index: 2;
