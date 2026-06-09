@@ -417,9 +417,42 @@
     }
   });
 
+  // ── Team Carousel Popup Logic ──
+  const enterSeasonBtn = document.getElementById('enterSeasonBtn');
+  const teamCarouselOverlay = document.getElementById('teamCarouselOverlay');
+  const carouselCloseBtn = document.getElementById('carouselClose');
 
+  if (enterSeasonBtn) {
+    enterSeasonBtn.addEventListener('click', () => {
+      // If teamCarouselOverlay exists (e.g. in other files), open it
+      if (teamCarouselOverlay) {
+        teamCarouselOverlay.classList.remove('hidden');
+        setTimeout(() => teamCarouselOverlay.classList.add('show'), 10);
+      } else {
+        // Otherwise scroll to the next viewport (Game Selection)
+        const nextViewport = document.querySelector('.vp3-games');
+        if (nextViewport) {
+          nextViewport.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  }
 
-  // ══════════════════════════════════════
+  if (carouselCloseBtn && teamCarouselOverlay) {
+    carouselCloseBtn.addEventListener('click', () => {
+      teamCarouselOverlay.classList.remove('show');
+      setTimeout(() => teamCarouselOverlay.classList.add('hidden'), 300); // match transition
+    });
+  }
+
+  if (teamCarouselOverlay) {
+    teamCarouselOverlay.addEventListener('click', (e) => {
+      if (e.target === teamCarouselOverlay) {
+        teamCarouselOverlay.classList.remove('show');
+        setTimeout(() => teamCarouselOverlay.classList.add('hidden'), 300);
+      }
+    });
+  }  // ══════════════════════════════════════
   // INIT
   // ══════════════════════════════════════
 
@@ -512,42 +545,26 @@
     });
   });
   // ══════════════════════════════════════
-  // CAROUSEL LOGIC (Infinite Loop)
+  // CAROUSEL LOGIC (Standard, No Infinite Loop)
   // ══════════════════════════════════════
   const carouselContainer = document.getElementById('teamCarousel');
   if (carouselContainer) {
-    let originalItems = Array.from(carouselContainer.querySelectorAll('.carousel-item'));
-    
-    // Clone first and last items
-    const firstClone = originalItems[0].cloneNode(true);
-    const lastClone = originalItems[originalItems.length - 1].cloneNode(true);
-    
-    firstClone.classList.remove('active');
-    lastClone.classList.remove('active');
-    // Mark clones so liquid simulation skips them
-    firstClone.querySelectorAll('.liquid-canvas').forEach(c => c.dataset.skip = '1');
-    lastClone.querySelectorAll('.liquid-canvas').forEach(c => c.dataset.skip = '1');
-    
-    carouselContainer.appendChild(firstClone);
-    carouselContainer.insertBefore(lastClone, originalItems[0]);
-    
     const allItems = Array.from(carouselContainer.querySelectorAll('.carousel-item'));
     
-    // Initialize position to the real first item
+    // Initialize position to the first item
     setTimeout(() => {
       carouselContainer.style.scrollSnapType = 'none';
-      const realFirstItem = allItems[1];
-      const targetLeft = realFirstItem.getBoundingClientRect().left;
-      const containerLeft = carouselContainer.getBoundingClientRect().left;
-      const centerOffset = (carouselContainer.offsetWidth - realFirstItem.offsetWidth) / 2;
-      carouselContainer.scrollLeft += ((targetLeft - containerLeft) - centerOffset);
-      
+      const firstItem = allItems[0];
+      if(firstItem) {
+        const targetLeft = firstItem.getBoundingClientRect().left;
+        const containerLeft = carouselContainer.getBoundingClientRect().left;
+        const centerOffset = (carouselContainer.offsetWidth - firstItem.offsetWidth) / 2;
+        carouselContainer.scrollLeft += ((targetLeft - containerLeft) - centerOffset);
+      }
       setTimeout(() => {
         carouselContainer.style.scrollSnapType = 'x mandatory';
       }, 50);
     }, 100);
-
-    let scrollTimeout;
 
     const updateActiveItem = () => {
       const containerRect = carouselContainer.getBoundingClientRect();
@@ -573,29 +590,6 @@
           item.classList.remove('active');
         }
       });
-
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        if (activeIndex === 0) {
-          // Snapped to first clone (clone of last) -> jump to real last item
-          carouselContainer.style.scrollSnapType = 'none';
-          const realLastItem = allItems[allItems.length - 2];
-          const targetLeft = realLastItem.getBoundingClientRect().left;
-          const offset = targetLeft - containerRect.left;
-          const centerOffset = (containerRect.width - realLastItem.offsetWidth) / 2;
-          carouselContainer.scrollLeft += (offset - centerOffset);
-          setTimeout(() => { carouselContainer.style.scrollSnapType = 'x mandatory'; }, 50);
-        } else if (activeIndex === allItems.length - 1) {
-          // Snapped to last clone (clone of first) -> jump to real first item
-          carouselContainer.style.scrollSnapType = 'none';
-          const realFirstItem = allItems[1];
-          const targetLeft = realFirstItem.getBoundingClientRect().left;
-          const offset = targetLeft - containerRect.left;
-          const centerOffset = (containerRect.width - realFirstItem.offsetWidth) / 2;
-          carouselContainer.scrollLeft += (offset - centerOffset);
-          setTimeout(() => { carouselContainer.style.scrollSnapType = 'x mandatory'; }, 50);
-        }
-      }, 150); // wait for snap finish
     };
 
     let isScrolling = false;
