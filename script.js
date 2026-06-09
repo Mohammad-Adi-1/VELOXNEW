@@ -250,6 +250,13 @@
       rewardPrize.style.color = "#00ff00";
       if (rewardConfettiIcon) rewardConfettiIcon.textContent = "🎉";
       if (claimBtn) claimBtn.textContent = "Claim Reward";
+      
+      // Update balance globally
+      if (typeof userBalance !== 'undefined' && typeof updateBalanceDisplay !== 'undefined') {
+        userBalance += (currentMatchBet * 3);
+        localStorage.setItem('userBalance', userBalance);
+        updateBalanceDisplay();
+      }
     } else {
       if (rewardTitle) rewardTitle.textContent = "Almost Had It!";
       if (rewardSubtitle) rewardSubtitle.textContent = "Don't give up, try your luck again!";
@@ -460,8 +467,8 @@
   // CONNECT & DEPOSIT FLOW
   // ══════════════════════════════════════
 
-  let isConnected = false;
-  let userBalance = 0.00;
+  let isConnected = localStorage.getItem('isConnected') === 'true';
+  let userBalance = parseFloat(localStorage.getItem('userBalance')) || 0.00;
 
   const headerPreConnect = document.getElementById('headerPreConnect');
   const headerPostConnect = document.getElementById('headerPostConnect');
@@ -475,25 +482,39 @@
   const copyAddressBtn = document.getElementById('copyAddressBtn');
   const depositAddress = document.getElementById('depositAddress');
 
+  if (isConnected && headerPreConnect && headerPostConnect) {
+    headerPreConnect.classList.add('hidden');
+    headerPostConnect.classList.remove('hidden');
+    if (userAvatar) userAvatar.textContent = 'AK';
+    updateBalanceDisplay();
+  }
+
   // Simulate Telegram connect
-  connectBtn.addEventListener('click', () => {
-    connectBtn.textContent = 'Connecting…';
-    connectBtn.disabled = true;
+  if (connectBtn) {
+    connectBtn.addEventListener('click', () => {
+      connectBtn.textContent = 'Connecting…';
+      connectBtn.disabled = true;
 
-    // Simulate async Telegram auth (replace with real Telegram.WebApp.initData)
-    setTimeout(() => {
-      isConnected = true;
-      userBalance = 0.00;
+      // Simulate async Telegram auth (replace with real Telegram.WebApp.initData)
+      setTimeout(() => {
+        isConnected = true;
+        localStorage.setItem('isConnected', 'true');
+        
+        if (userBalance === 0) {
+          userBalance = 500.00;
+          localStorage.setItem('userBalance', userBalance);
+        }
 
-      // Swap header states
-      headerPreConnect.classList.add('hidden');
-      headerPostConnect.classList.remove('hidden');
+        // Swap header states
+        if (headerPreConnect) headerPreConnect.classList.add('hidden');
+        if (headerPostConnect) headerPostConnect.classList.remove('hidden');
 
-      // Set avatar initials (from Telegram user in production)
-      userAvatar.textContent = 'AK';
-      updateBalanceDisplay();
-    }, 1200);
-  });
+        // Set avatar initials (from Telegram user in production)
+        if (userAvatar) userAvatar.textContent = 'AK';
+        updateBalanceDisplay();
+      }, 1200);
+    });
+  }
 
   function updateBalanceDisplay() {
     const formatted = userBalance.toFixed(2);
@@ -676,6 +697,22 @@
       const activeBetTab = document.querySelector('#betAmountTabs .bet-tab.active');
       currentMatchBet = activeBetTab ? parseInt(activeBetTab.dataset.value) : 1;
       currentMatchTeam = selectedTeam;
+
+      if (!isConnected) {
+        alert("Please connect your wallet/Telegram first!");
+        mainPlayBtn.classList.remove('disabled');
+        return;
+      }
+      
+      if (userBalance < currentMatchBet) {
+        alert("Insufficient balance! Please deposit.");
+        mainPlayBtn.classList.remove('disabled');
+        return;
+      }
+      
+      userBalance -= currentMatchBet;
+      localStorage.setItem('userBalance', userBalance);
+      updateBalanceDisplay();
 
       // Reset slots
       const matchSlotCircle = document.getElementById('matchSlotCircle');
@@ -1295,8 +1332,12 @@
   cards.forEach((card, i) => {
     card.addEventListener('click', () => {
       const titleEl = card.querySelector('.game-card-title');
-      if (titleEl && titleEl.textContent.trim() === 'Spin & Win') {
-        window.location.href = 'spingame.html';
+      if (card.classList.contains('active')) {
+        if (titleEl && titleEl.textContent.trim() === 'Spin & Win') {
+          window.location.href = 'spingame.html';
+        } else if (titleEl && titleEl.textContent.trim() === 'Dice Roll') {
+          window.location.href = 'dicegame.html';
+        }
       } else {
         goTo(i);
       }

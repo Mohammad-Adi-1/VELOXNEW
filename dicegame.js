@@ -1,18 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Navigation elements
+  let isConnected = localStorage.getItem('isConnected') === 'true';
+  let userBalance = parseFloat(localStorage.getItem('userBalance')) || 0.00;
+  
   const balanceAmount = document.getElementById('balanceAmount');
-  let userBalance = 1000.00; // Start with 1000 for testing
-  balanceAmount.textContent = userBalance.toFixed(2);
+  const updateBalanceDisplay = () => {
+    if (balanceAmount) balanceAmount.textContent = userBalance.toFixed(2);
+  };
+  updateBalanceDisplay();
 
   // Connection
   const connectBtn = document.getElementById('connectBtn');
   const headerPreConnect = document.getElementById('headerPreConnect');
   const headerPostConnect = document.getElementById('headerPostConnect');
   
+  if (isConnected && headerPreConnect && headerPostConnect) {
+    headerPreConnect.classList.add('hidden');
+    headerPostConnect.classList.remove('hidden');
+  }
+
   if (connectBtn) {
     connectBtn.addEventListener('click', () => {
-      headerPreConnect.classList.add('hidden');
-      headerPostConnect.classList.remove('hidden');
+      connectBtn.textContent = 'Connecting…';
+      connectBtn.disabled = true;
+      setTimeout(() => {
+        isConnected = true;
+        localStorage.setItem('isConnected', 'true');
+        
+        if (userBalance === 0) {
+          userBalance = 500.00;
+          localStorage.setItem('userBalance', userBalance);
+        }
+        updateBalanceDisplay();
+        
+        if (headerPreConnect) headerPreConnect.classList.add('hidden');
+        if (headerPostConnect) headerPostConnect.classList.remove('hidden');
+      }, 1200);
     });
   }
 
@@ -155,6 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    if (!isConnected) {
+      diceResultText.textContent = "Please connect first!";
+      diceResultText.style.color = "#ff4d4d";
+      return;
+    }
+
     if (userBalance < betAmount) {
       diceResultText.textContent = "Insufficient balance!";
       diceResultText.style.color = "#ff4d4d";
@@ -163,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Deduct bet amount
     userBalance -= betAmount;
+    localStorage.setItem('userBalance', userBalance);
     balanceAmount.textContent = userBalance.toFixed(2);
     
     isRolling = true;
@@ -219,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (won) {
         userBalance += payout;
+        localStorage.setItem('userBalance', userBalance);
         balanceAmount.textContent = userBalance.toFixed(2);
         diceResultText.textContent = `Rolled ${total}. You Won $${payout}!`;
         diceResultText.style.color = "#4ade80"; // Green
