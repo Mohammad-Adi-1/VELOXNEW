@@ -748,7 +748,7 @@
 
       Object.values(slots).forEach(slot => {
         if(slot) {
-          slot.classList.remove('joined');
+          slot.classList.remove('joined', 'is-user');
           const idEl = slot.querySelector('.mp-id');
           if (idEl) idEl.textContent = 'Waiting...';
         }
@@ -768,13 +768,13 @@
       // Fill user slot
       const userSlot = slots[selectedTeam];
       if (userSlot) {
-        userSlot.classList.add('joined');
+        userSlot.classList.add('joined', 'is-user');
         const idEl = userSlot.querySelector('.mp-id');
         if (idEl) idEl.textContent = 'You';
         
         if (matchList) {
           matchList.insertAdjacentHTML('beforeend', `
-            <div class="match-list-item">
+            <div class="match-list-item is-user">
               <span class="ml-id" style="font-weight:800">You</span>
               <span class="ml-team"><i class="ti ti-${selectedTeam}"></i> ${selectedTeam.toUpperCase()}</span>
               <span class="ml-bet">$${currentMatchBet}</span>
@@ -1264,24 +1264,30 @@
   const gameData = [
     {
       title: "Spin & Win",
-      desc: "Experience the thrill of the ultimate wheel of fortune! Spin daily for a chance to win massive rewards, exclusive tokens, and rare in-game items. Test your luck, build your fortune, and see where the wheel takes you today!"
+      desc: "Experience the thrill of the ultimate wheel of fortune! Spin daily for a chance to win massive rewards, exclusive tokens, and rare in-game items. Test your luck, build your fortune, and see where the wheel takes you today!",
+      online: "102,394"
     },
     {
       title: "Card Flip",
-      desc: "Put your memory to the ultimate test in this high-stakes card flipping challenge! Match pairs of identical cards to uncover hidden bonuses and multiply your daily earnings. Stay sharp, memorize patterns, and flip your way to victory!"
+      desc: "Put your memory to the ultimate test in this high-stakes card flipping challenge! Match pairs of identical cards to uncover hidden bonuses and multiply your daily earnings. Stay sharp, memorize patterns, and flip your way to victory!",
+      online: "45,123"
     },
     {
       title: "Dice Roll",
-      desc: "Roll the dice and let fate decide your fortune! A classic game of chance where high rolls unlock premium loot boxes and rare character skins. Bet your tokens strategically, beat the house odds, and become the ultimate high roller."
+      desc: "Roll the dice and let fate decide your fortune! A classic game of chance where high rolls unlock premium loot boxes and rare character skins. Bet your tokens strategically, beat the house odds, and become the ultimate high roller.",
+      online: "89,451"
     },
     {
       title: "Battle",
-      desc: "Enter the arena and challenge players worldwide in intense tactical combat! Choose your hero, customize your loadout, and outsmart your opponents to climb the global leaderboard. Glory, fame, and legendary rewards await the champions."
+      desc: "Enter the arena and challenge players worldwide in intense tactical combat! Choose your hero, customize your loadout, and outsmart your opponents to climb the global leaderboard. Glory, fame, and legendary rewards await the champions.",
+      online: "12,984"
     }
   ];
 
   const titleEl = document.getElementById('displayGameTitle');
   const descEl = document.getElementById('displayGameDesc');
+  const onlineCountEl = document.getElementById('displayOnlineCount');
+  const onlineIndicator = document.getElementById('onlinePlayersIndicator');
 
   function goTo(index) {
     index = ((index % N) + N) % N;
@@ -1291,12 +1297,16 @@
     if (titleEl && descEl) {
       titleEl.style.opacity = 0;
       descEl.style.opacity = 0;
+      if (onlineIndicator) onlineIndicator.style.opacity = 0;
       
       setTimeout(() => {
         titleEl.textContent = gameData[index].title;
         descEl.textContent = gameData[index].desc;
+        if (onlineCountEl) onlineCountEl.textContent = gameData[index].online;
+        
         titleEl.style.opacity = 1;
         descEl.style.opacity = 1;
+        if (onlineIndicator) onlineIndicator.style.opacity = 1;
       }, 150); // slight delay for a nice fade effect
     }
 
