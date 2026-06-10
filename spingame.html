@@ -13,6 +13,41 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800;900&display=swap" rel="stylesheet" />
   <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
+  <style>
+    /* Make spingame completely white */
+    .app-shell { background: #ffffff !important; }
+    .brand-name { color: #000000 !important; }
+    .connect-btn, .balance-btn, .avatar { 
+      color: #000000 !important; 
+      border-color: rgba(0, 0, 0, 0.3) !important; 
+    }
+    .balance-btn i { color: #000000 !important; }
+    
+    /* Ticker */
+    .live-ticker-container {
+      background: rgba(0, 0, 0, 0.05) !important;
+      border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+    }
+    .ticker-item, .ticker-item i { color: #000000 !important; }
+    .ticker-id { color: #555555 !important; }
+
+    /* Matchmaking */
+    .matchmaking-section {
+      background-color: rgba(240, 240, 240, 0.9) !important;
+      border-color: #cccccc !important;
+    }
+    .matchmaking-label, .match-potential-win { color: #000000 !important; }
+    .match-list-item {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border-color: #dddddd !important;
+    }
+    .match-player {
+      background: #e0e0e0 !important;
+      border-color: #cccccc !important;
+    }
+    .match-player.joined .mp-id { color: #000000 !important; }
+  </style>
 </head>
 
 <body>

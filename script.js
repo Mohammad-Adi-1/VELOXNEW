@@ -565,6 +565,27 @@
       }, 1800);
     });
   });
+
+  // Demo Deposit
+  const demoDepositBtn = document.getElementById('demoDepositBtn');
+  if (demoDepositBtn) {
+    demoDepositBtn.addEventListener('click', () => {
+      userBalance += 1000.00;
+      localStorage.setItem('userBalance', userBalance);
+      updateBalanceDisplay();
+      
+      const originalText = demoDepositBtn.textContent;
+      demoDepositBtn.textContent = '✓ Added $1000 Demo USDT';
+      demoDepositBtn.style.background = '#14784a';
+      
+      setTimeout(() => {
+        demoDepositBtn.textContent = originalText;
+        demoDepositBtn.style.background = '#2E86DE';
+        depositModal.classList.add('hidden');
+      }, 1200);
+    });
+  }
+
   // ══════════════════════════════════════
   // CAROUSEL LOGIC (Standard, No Infinite Loop)
   // ══════════════════════════════════════
