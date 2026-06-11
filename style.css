@@ -763,7 +763,7 @@ body {
   width: 100%;
   background: #ffffff;
   padding: 0;
-  margin-top: auto;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -778,16 +778,17 @@ body {
 /* ── Bet Configuration Box ── */
 .bet-config-box {
   display: flex;
-  width: 92%;
+  width: 94%;
+  height: 100%;
   max-width: 440px;
-  margin: auto auto 12px auto;
+  margin: 0 auto 12px auto;
   perspective: 1000px; /* 3D effect */
 }
 
 .bet-config-inner {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
 }
@@ -814,7 +815,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   transform: rotateY(180deg);
 }
 
@@ -828,7 +830,7 @@ body {
   height: 100%;
   border: 1px solid #463c3c3d;
   border-radius: 14px;
-  background: rgba(26, 23, 23, 0.192);
+  background: #f44786;
   gap: 5px;
   padding: 10px;
   overflow: hidden;
@@ -842,9 +844,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  border: solid 1px rgba(0, 0, 0, 0);
+  border: solid 1px rgba(0, 0, 0, 0.418);
   border-radius: 15px;
-  background-color:rgb(255, 255, 255) ;
+  background-color:#0000005d;
   width: 100%;
 }
 
@@ -864,7 +866,7 @@ body {
   gap: 2px;
   width: 100%;
   padding: 0px 0px;
-  background: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, 0);
  
   border-radius: 12px;
   transition: background 0.2s ease;
@@ -913,9 +915,9 @@ body {
 }
 
 .team-tab:hover, .team-tab.active {
-  background: #0011ff;
+  background: #f44786;
   color: #ffffff;
-  border-color: #2563eb;
+  border-color: #000000;
 }
 
 .front-divider {
@@ -931,7 +933,7 @@ body {
   padding: 3px 10px;
   border: solid 1px rgb(0, 0, 0);
   border-radius: 15px;
-  background-color:rgb(255, 255, 255) ;
+  background-color:rgba(0, 0, 0, 0.247) ;
 }
 
 .bet-config-section {
@@ -953,12 +955,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   border: 1px solid #464242;
   border-radius: 14px;
-  padding: 6px 15px;
- background-color:rgba(46, 41, 41, 0.822) ;
-  overflow: hidden;
+  padding: 12px 15px;
+  background-color: rgba(46, 41, 41, 0.822);
+  overflow: visible;
   gap: 10px;
   margin: 2px 0 0 0;
 }
@@ -1137,8 +1140,8 @@ body {
 }
 
 .bet-tab.active {
-  background: #1100ff;
-  border-color: #2563eb;
+  background: #f44786;
+  border-color: #000000;
   color: #ffffff;
 }
 
@@ -1578,8 +1581,10 @@ body {
   align-items: center;
   margin-top: 10px;
   margin-bottom: 10px;
-  border-radius: 50px;
-  background-color: #0000009a;
+  margin-left: 12px;
+  margin-right: 12px;
+  border-radius: 15px;
+  background-color: #ffffffd8;
   border: 2px solid #0808083a; /* Marked the borders as requested */
 }
 
@@ -2575,7 +2580,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(20px, 5vh, 38px);
   font-weight: 800;
-  color: #000000;
+  color: #ffffff;
   margin: 0 0 clamp(2px, 0.5vh, 5px) 0;
   transition: opacity 0.3s ease;
 }
@@ -2583,7 +2588,7 @@ body {
 .active-game-info p {
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(10px, 2.4vh, 20px);
-  color: #000000;
+  color: #ffffff;
   line-height: 1.4;
   margin: 0;
   transition: opacity 0.3s ease;
@@ -2649,7 +2654,7 @@ body {
 .game-card.active {
   width: 250px;
   height: 250px;
-  background-color: rgba(255, 255, 255, 0.788);
+  background-color: rgb(255, 255, 255);
   border-color: #0c0c0c52;
   box-shadow: 0 0 18px rgba(255, 255, 255, 0.55),
               0 0 50px rgba(255, 255, 255, 0.15);
@@ -2660,7 +2665,8 @@ body {
 .game-card:hover,
 .game-card.active:hover {
   background: #ffffff;
-  box-shadow: 0 0 15px rgba(244, 71, 134, 0.6);
+  box-shadow: 0 0 18px rgb(255, 255, 255),
+              0 0 50px rgba(255, 255, 255, 0.15);
 }
 
 .game-card:not(.active) {
