@@ -1407,7 +1407,7 @@
     },
     {
       title: "Battle",
-      desc: "Enter the arena and challenge players worldwide in intense tactical combat! Choose your hero, customize your loadout, and outsmart your opponents to climb the global leaderboard. Glory, fame, and legendary rewards await the champions.",
+      desc: "Enter the arena and challenge rivals worldwide in intense tactical combat! Choose your hero, customize your loadout, and outsmart opponents to climb the leaderboard. Glory, fame, and legendary rewards await the true champions!",
       online: "12,984"
     }
   ];
