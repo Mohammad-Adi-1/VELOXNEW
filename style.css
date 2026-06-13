@@ -17,7 +17,7 @@ html, body {
   max-width: 100vw;
   overflow: hidden;
   overflow-x: hidden;
-  background: #ffffff;
+  background: #0A192F;
 }
 
 body {
@@ -43,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   overflow: hidden;
   overflow-x: hidden;
-  background: rgb(255, 255, 255);
+  background: #0A192F;
   position: relative;
   z-index: 1;
   /* Safe area insets for notched phones */

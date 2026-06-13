@@ -502,72 +502,84 @@
   const copyAddressBtn = document.getElementById('copyAddressBtn');
   const depositAddress = document.getElementById('depositAddress');
 
-  const tg = window.Telegram ? window.Telegram.WebApp : null;
-  if (tg) tg.ready();
+  const customWalletModal = document.getElementById('customWalletModal');
+  const closeWalletModal = document.getElementById('closeWalletModal');
+  const simConnectTgWalletBtn = document.getElementById('simConnectTgWalletBtn');
 
-  function updateUserDataFromTelegram() {
-    let userData = null;
-    
-    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      userData = tg.initDataUnsafe.user;
-    } else {
-      const webUser = localStorage.getItem('webTgUser');
-      if (webUser) {
-        try { userData = JSON.parse(webUser); } catch(e) {}
-      }
-    }
-
-    if (userData) {
-      const firstName = userData.first_name || '';
-      const lastName = userData.last_name || '';
-      const initials = (firstName.charAt(0) + (lastName ? lastName.charAt(0) : '')).toUpperCase() || 'TG';
-      
-      if (userAvatar) userAvatar.textContent = initials;
-      
-      const sidebarAvatar = document.getElementById('sidebarAvatar');
-      const sidebarUsername = document.querySelector('.sidebar-username');
-      const sidebarUid = document.querySelector('.sidebar-uid');
-      
-      if (sidebarAvatar) sidebarAvatar.textContent = initials;
-      if (sidebarUsername) sidebarUsername.textContent = (firstName + ' ' + lastName).trim();
-      if (sidebarUid) sidebarUid.textContent = 'UID: #' + userData.id;
-    } else {
-      if (userAvatar) userAvatar.textContent = 'AK';
-    }
+  if (closeWalletModal) {
+    closeWalletModal.addEventListener('click', () => {
+      if (customWalletModal) customWalletModal.classList.add('hidden');
+    });
   }
 
   if (isConnected && headerPreConnect && headerPostConnect) {
     headerPreConnect.classList.add('hidden');
     headerPostConnect.classList.remove('hidden');
-    updateUserDataFromTelegram();
     updateBalanceDisplay();
   }
 
-  // Connect via Telegram WebApp or Redirect
+  // Open Custom Wallet Modal
   if (connectBtn) {
     connectBtn.addEventListener('click', () => {
-      // If running inside the Telegram App, connect instantly
-      if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        connectBtn.textContent = 'Connecting…';
-        connectBtn.disabled = true;
-        setTimeout(() => {
-          isConnected = true;
-          localStorage.setItem('isConnected', 'true');
-          
-          if (userBalance === 0) {
-            userBalance = 500.00;
-            localStorage.setItem('userBalance', userBalance);
-          }
+      if (customWalletModal) customWalletModal.classList.remove('hidden');
+    });
+  }
 
-          if (headerPreConnect) headerPreConnect.classList.add('hidden');
-          if (headerPostConnect) headerPostConnect.classList.remove('hidden');
+  // Initialize TON Connect UI
+  let tonConnectUI = null;
+  try {
+    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json'
+    });
 
-          updateUserDataFromTelegram();
-          updateBalanceDisplay();
-        }, 300);
+    tonConnectUI.onStatusChange(wallet => {
+      if (wallet) {
+        if (customWalletModal) customWalletModal.classList.add('hidden');
+        isConnected = true;
+        localStorage.setItem('isConnected', 'true');
+        
+        const rawAddress = wallet.account.address;
+        const shortAddress = rawAddress.substring(0, 4) + '...' + rawAddress.substring(rawAddress.length - 4);
+        
+        if (userAvatar) userAvatar.innerHTML = '<i class="ti ti-wallet"></i>';
+        
+        const sidebarAvatar = document.getElementById('sidebarAvatar');
+        const sidebarUsername = document.querySelector('.sidebar-username');
+        const sidebarUid = document.querySelector('.sidebar-uid');
+        
+        if (sidebarAvatar) sidebarAvatar.innerHTML = '<i class="ti ti-wallet"></i>';
+        if (sidebarUsername) sidebarUsername.textContent = 'Wallet Connected';
+        if (sidebarUid) sidebarUid.textContent = shortAddress;
+
+        if (headerPreConnect) headerPreConnect.classList.add('hidden');
+        if (headerPostConnect) headerPostConnect.classList.remove('hidden');
+
+        if (userBalance === 0) {
+          userBalance = 500.00;
+          localStorage.setItem('userBalance', userBalance);
+        }
+        updateBalanceDisplay();
       } else {
-        // Not in Telegram App -> Redirect directly to Telegram
-        window.location.href = 'https://t.me/VeloxMiniApp_Bot/app';
+        isConnected = false;
+        localStorage.setItem('isConnected', 'false');
+        if (headerPostConnect) headerPostConnect.classList.add('hidden');
+        if (headerPreConnect) headerPreConnect.classList.remove('hidden');
+      }
+    });
+  } catch (e) {
+    console.error("TON Connect UI init failed:", e);
+  }
+
+  // Connect via TonConnect
+  if (simConnectTgWalletBtn) {
+    simConnectTgWalletBtn.addEventListener('click', async () => {
+      if (customWalletModal) customWalletModal.classList.add('hidden');
+      try {
+        if (tonConnectUI) {
+          await tonConnectUI.openModal();
+        }
+      } catch (err) {
+        console.error("Failed to open TON Connect modal:", err);
       }
     });
   }
@@ -608,11 +620,19 @@
   }
 
   if (dropLogout) {
-    dropLogout.addEventListener('click', () => {
+    dropLogout.addEventListener('click', async () => {
       profileDropdown.classList.add('hidden');
+      
+      try {
+        if (tonConnectUI && tonConnectUI.connected) {
+          await tonConnectUI.disconnect();
+        }
+      } catch (e) {
+        console.error("Failed to disconnect wallet:", e);
+      }
+      
       isConnected = false;
       localStorage.setItem('isConnected', 'false');
-      localStorage.removeItem('webTgUser');
       
       if (headerPostConnect) headerPostConnect.classList.add('hidden');
       if (headerPreConnect) headerPreConnect.classList.remove('hidden');
