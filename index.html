@@ -51,6 +51,62 @@
 
     <!-- Body -->
     <div class="app-content">
+
+      <!-- Sidebar Overlay -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- Sidebar -->
+      <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+        <div class="sidebar-inner">
+          <!-- Profile Section -->
+          <div class="sidebar-profile">
+            <div class="sidebar-avatar" id="sidebarAvatar">AK</div>
+            <div class="sidebar-user-info">
+              <span class="sidebar-username">Player</span>
+              <span class="sidebar-uid">UID: #00000</span>
+            </div>
+          </div>
+
+          <div class="sidebar-divider"></div>
+
+          <!-- Nav Items -->
+          <ul class="sidebar-nav">
+            <li class="sidebar-nav-item" data-page="profile">
+              <i class="ti ti-user-circle"></i>
+              <span>Profile</span>
+              <i class="ti ti-chevron-right sidebar-arrow"></i>
+            </li>
+            <li class="sidebar-nav-item" data-page="leaderboard">
+              <i class="ti ti-trophy"></i>
+              <span>Leaderboard</span>
+              <i class="ti ti-chevron-right sidebar-arrow"></i>
+            </li>
+            <li class="sidebar-nav-item" data-page="refer">
+              <i class="ti ti-gift"></i>
+              <span>Refer &amp; Earn</span>
+              <span class="sidebar-badge">NEW</span>
+              <i class="ti ti-chevron-right sidebar-arrow"></i>
+            </li>
+            <li class="sidebar-nav-item" data-page="settings">
+              <i class="ti ti-settings"></i>
+              <span>Settings</span>
+              <i class="ti ti-chevron-right sidebar-arrow"></i>
+            </li>
+            <li class="sidebar-nav-item" data-page="help">
+              <i class="ti ti-help-circle"></i>
+              <span>Help &amp; Support</span>
+              <i class="ti ti-chevron-right sidebar-arrow"></i>
+            </li>
+          </ul>
+
+          <div class="sidebar-divider"></div>
+
+          <!-- Sidebar Footer -->
+          <div class="sidebar-footer">
+            <span class="sidebar-version">Velox v1.0 — Season 1</span>
+          </div>
+        </div>
+      </nav>
       <!-- Viewport 1: Hero -->
       <div class="viewport-screen vp1-hero">
         
@@ -60,6 +116,8 @@
           <span></span>
           <span></span>
         </div>
+
+
         
 
 
@@ -146,7 +204,7 @@
 
     </div>
 
-
+    
     <!-- Team Info Popup -->
     <div class="team-info-overlay" id="teamInfoOverlay">
       <div class="team-info-popup" id="teamInfoPopup">

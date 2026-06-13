@@ -72,8 +72,8 @@
       ctx.arc(0, 0, r, startA, endA);
       ctx.closePath();
 
-      // Slice fill — lighter shades of #F44786
-      ctx.fillStyle = i % 2 === 0 ? 'rgba(255, 255, 255, 0.9)' : 'rgba(240, 240, 240, 0.9)';
+      // Slice fill
+      ctx.fillStyle = i % 2 === 0 ? '#ffffff' : '#f5f5f5';
       ctx.fill();
 
       // Reset alpha
@@ -394,12 +394,32 @@
     return `rgb(${r},${g},${b})`;
   }
 
-  // ── Hamburger Toggle ──
+  // ── Hamburger / Sidebar Toggle ──
   const hamburgerBtn = document.getElementById('hamburger');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  function openSidebar() {
+    sidebar && sidebar.classList.add('open');
+    sidebarOverlay && sidebarOverlay.classList.add('active');
+    hamburgerBtn && hamburgerBtn.classList.add('open');
+  }
+
+  function closeSidebar() {
+    sidebar && sidebar.classList.remove('open');
+    sidebarOverlay && sidebarOverlay.classList.remove('active');
+    hamburgerBtn && hamburgerBtn.classList.remove('open');
+  }
+
   if (hamburgerBtn) {
     hamburgerBtn.addEventListener('click', function () {
-      this.classList.toggle('open');
+      const isOpen = sidebar && sidebar.classList.contains('open');
+      isOpen ? closeSidebar() : openSidebar();
     });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
   }
 
   // ══════════════════════════════════════
