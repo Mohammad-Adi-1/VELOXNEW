@@ -643,7 +643,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 8px;
   width: 100%;
   padding: 12px 24px;
-  background: #181717;
+  background: #f44786;
   color: #ffffff;
   border: none;
   border-radius: 25px;
@@ -2874,12 +2874,12 @@ h1, h2, h3, h4, h5, h6 {
 .active-game-info {
   text-align: center;
   margin: clamp(50px, 10vh, 100px) auto clamp(5px, 2vh, 10px);
-  padding: clamp(4px, 1vh, 8px) 12px;
+  padding: 20px 16px;
   width: 90%;
   max-width: 420px;
   
   /* Glassmorphic box styling */
-  background: rgba(255, 255, 255, 0.048);
+  background: rgba(20, 20, 20, 0.534);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -2891,7 +2891,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(20px, 5vh, 38px);
   font-weight: 800;
-  color: #ffffff !important;
+  color: #f44786 !important;
   margin: 0 0 clamp(2px, 0.5vh, 5px) 0;
   transition: opacity 0.3s ease;
 }
@@ -2981,7 +2981,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 50%;
   width: 250%;
   height: 250%;
-  background: rgb(63, 11, 28);
+  background: #f44786;
   border-radius: 40%;
   transform: translateX(-50%);
   z-index: 1;
