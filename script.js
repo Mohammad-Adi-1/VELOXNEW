@@ -502,20 +502,44 @@
   const copyAddressBtn = document.getElementById('copyAddressBtn');
   const depositAddress = document.getElementById('depositAddress');
 
+  const tg = window.Telegram ? window.Telegram.WebApp : null;
+  if (tg) tg.ready();
+
+  function updateUserDataFromTelegram() {
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      const user = tg.initDataUnsafe.user;
+      const firstName = user.first_name || '';
+      const lastName = user.last_name || '';
+      const initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase() || 'TG';
+      
+      if (userAvatar) userAvatar.textContent = initials;
+      
+      const sidebarAvatar = document.getElementById('sidebarAvatar');
+      const sidebarUsername = document.querySelector('.sidebar-username');
+      const sidebarUid = document.querySelector('.sidebar-uid');
+      
+      if (sidebarAvatar) sidebarAvatar.textContent = initials;
+      if (sidebarUsername) sidebarUsername.textContent = (firstName + ' ' + lastName).trim();
+      if (sidebarUid) sidebarUid.textContent = 'UID: #' + user.id;
+    } else {
+      if (userAvatar) userAvatar.textContent = 'AK';
+    }
+  }
+
   if (isConnected && headerPreConnect && headerPostConnect) {
     headerPreConnect.classList.add('hidden');
     headerPostConnect.classList.remove('hidden');
-    if (userAvatar) userAvatar.textContent = 'AK';
+    updateUserDataFromTelegram();
     updateBalanceDisplay();
   }
 
-  // Simulate Telegram connect
+  // Connect via Telegram WebApp
   if (connectBtn) {
     connectBtn.addEventListener('click', () => {
       connectBtn.textContent = 'Connecting…';
       connectBtn.disabled = true;
 
-      // Simulate async Telegram auth (replace with real Telegram.WebApp.initData)
+      // Use a short timeout to simulate the network request or instantly connect if Telegram API is present
       setTimeout(() => {
         isConnected = true;
         localStorage.setItem('isConnected', 'true');
@@ -529,10 +553,60 @@
         if (headerPreConnect) headerPreConnect.classList.add('hidden');
         if (headerPostConnect) headerPostConnect.classList.remove('hidden');
 
-        // Set avatar initials (from Telegram user in production)
-        if (userAvatar) userAvatar.textContent = 'AK';
+        updateUserDataFromTelegram();
         updateBalanceDisplay();
-      }, 1200);
+      }, tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? 300 : 1200);
+    });
+  }
+
+  // Profile Dropdown Logic
+  const profileDropdown = document.getElementById('profileDropdown');
+  const dropDeposit = document.getElementById('dropDeposit');
+  const dropWithdraw = document.getElementById('dropWithdraw');
+  const dropLogout = document.getElementById('dropLogout');
+
+  if (userAvatar && profileDropdown) {
+    userAvatar.addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle('hidden');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!userAvatar.contains(e.target) && !profileDropdown.contains(e.target)) {
+        profileDropdown.classList.add('hidden');
+      }
+    });
+  }
+
+  if (dropDeposit) {
+    dropDeposit.addEventListener('click', () => {
+      profileDropdown.classList.add('hidden');
+      updateBalanceDisplay();
+      depositModal.classList.remove('hidden');
+    });
+  }
+
+  if (dropWithdraw) {
+    dropWithdraw.addEventListener('click', () => {
+      profileDropdown.classList.add('hidden');
+      alert('Withdraw functionality coming soon!');
+    });
+  }
+
+  if (dropLogout) {
+    dropLogout.addEventListener('click', () => {
+      profileDropdown.classList.add('hidden');
+      isConnected = false;
+      localStorage.setItem('isConnected', 'false');
+      
+      if (headerPostConnect) headerPostConnect.classList.add('hidden');
+      if (headerPreConnect) headerPreConnect.classList.remove('hidden');
+      
+      if (connectBtn) {
+        connectBtn.disabled = false;
+        connectBtn.innerHTML = '<i class="ti ti-brand-telegram"></i> Connect';
+      }
     });
   }
 

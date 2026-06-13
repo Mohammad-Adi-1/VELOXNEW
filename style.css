@@ -25,6 +25,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  color: #f44786 !important;
+}
+
 
 
 
@@ -39,7 +43,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   overflow-x: hidden;
-  background: #1900ff;
+  background: rgb(255, 255, 255);
   position: relative;
   z-index: 1;
   /* Safe area insets for notched phones */
@@ -54,8 +58,8 @@ body {
 /* ── Header ── */
 .app-header {
   background: #14141450;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
   /* Stretch edge-to-edge, cancelling any safe-area padding from parent */
   margin-left: calc(-1 * env(safe-area-inset-left, 0px));
   margin-right: calc(-1 * env(safe-area-inset-right, 0px));
@@ -70,7 +74,6 @@ body {
   flex-shrink: 0;
   position: relative;
   z-index: 10;
-  overflow: hidden;
   width: calc(100% + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px));
 }
 
@@ -434,6 +437,66 @@ body {
   color: #fff;
 }
 
+/* ── Profile Dropdown ── */
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 150px;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 6px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInDropdown 0.2s ease-out;
+}
+
+@keyframes fadeInDropdown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item i {
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 4px 0;
+}
+
+.dropdown-item.text-danger {
+  color: #ff4757;
+}
+.dropdown-item.text-danger:hover {
+  background: rgba(255, 71, 87, 0.1);
+}
+
 /* ── Body Content ── */
 .app-content {
   flex: 1;
@@ -550,7 +613,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.048);
+  background: rgba(20, 20, 20, 0.534);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -580,8 +643,8 @@ body {
   margin-top: 8px;
   width: 100%;
   padding: 12px 24px;
-  background: #fffffffb;
-  color: #ff0000;
+  background: #181717;
+  color: #ffffff;
   border: none;
   border-radius: 25px;
   font-family: 'DM Sans', sans-serif;

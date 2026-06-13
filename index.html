@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800;900&display=swap" rel="stylesheet" />
   <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
@@ -23,9 +24,12 @@
 
     <!-- Header -->
     <div class="app-header">
-      <!-- Header Walking Animation -->
-      <dotlottie-player src="assets/walk.lottie" class="header-bg-lottie" background="transparent" speed="1" loop
-        autoplay></dotlottie-player>
+      <!-- Lottie Wrapper to contain overflow -->
+      <div style="position: absolute; inset: 0; overflow: hidden; z-index: 0; border-radius: inherit;">
+        <!-- Header Walking Animation -->
+        <dotlottie-player src="assets/walk.lottie" class="header-bg-lottie" background="transparent" speed="1" loop
+          autoplay></dotlottie-player>
+      </div>
       <!-- Dark overlay so text stays readable -->
       <div class="header-overlay"></div>
 
@@ -45,7 +49,17 @@
           <span id="balanceAmount">0.00</span>
           <span class="balance-label">USDT</span>
         </button>
-        <div class="avatar" id="userAvatar">AK</div>
+        <div class="avatar-wrapper" style="position: relative;">
+          <div class="avatar" id="userAvatar" style="cursor: pointer;">AK</div>
+          
+          <!-- Profile Dropdown -->
+          <div class="profile-dropdown hidden" id="profileDropdown">
+            <div class="dropdown-item" id="dropDeposit"><i class="ti ti-wallet"></i> Deposit</div>
+            <div class="dropdown-item" id="dropWithdraw"><i class="ti ti-cash"></i> Withdraw</div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item text-danger" id="dropLogout"><i class="ti ti-logout"></i> Logout</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -298,6 +312,31 @@
     </div>
   </div>
 
+  <!-- Telegram Web Login Modal -->
+  <div class="deposit-modal-overlay hidden" id="tgLoginModal">
+    <div class="deposit-modal" style="text-align: center;">
+      <h3 style="color: #fff; font-family: 'DM Sans', sans-serif; font-size: 20px; margin-bottom: 10px;">Connect Telegram</h3>
+      <p style="color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif; font-size: 14px; margin-bottom: 24px; line-height: 1.5;">
+        To play, please open this app inside Telegram or log in with your Telegram account.
+      </p>
+      
+      <button id="openInTgBtn" style="width: 100%; margin-bottom: 15px; background: #2AABEE; color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <i class="ti ti-brand-telegram"></i> Open in Telegram
+      </button>
+
+      <div style="display: flex; align-items: center; margin: 15px 0; color: rgba(255,255,255,0.4); font-size: 12px;">
+        <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+        <span style="padding: 0 10px;">OR</span>
+        <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+      </div>
+
+      <div id="telegram-login-container" style="min-height: 40px; display: flex; justify-content: center; align-items: center;">
+        <!-- Telegram Widget Injected Here -->
+      </div>
+      
+      <button id="tgLoginClose" style="margin-top: 20px; width: 100%; background: transparent; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 12px; cursor: pointer;">Cancel</button>
+    </div>
+  </div>
 
   <!-- Confetti Canvas -->
   <canvas id="confettiCanvas"></canvas>
