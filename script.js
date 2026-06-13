@@ -506,11 +506,21 @@
   if (tg) tg.ready();
 
   function updateUserDataFromTelegram() {
+    let userData = null;
+    
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      const user = tg.initDataUnsafe.user;
-      const firstName = user.first_name || '';
-      const lastName = user.last_name || '';
-      const initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase() || 'TG';
+      userData = tg.initDataUnsafe.user;
+    } else {
+      const webUser = localStorage.getItem('webTgUser');
+      if (webUser) {
+        try { userData = JSON.parse(webUser); } catch(e) {}
+      }
+    }
+
+    if (userData) {
+      const firstName = userData.first_name || '';
+      const lastName = userData.last_name || '';
+      const initials = (firstName.charAt(0) + (lastName ? lastName.charAt(0) : '')).toUpperCase() || 'TG';
       
       if (userAvatar) userAvatar.textContent = initials;
       
@@ -520,7 +530,7 @@
       
       if (sidebarAvatar) sidebarAvatar.textContent = initials;
       if (sidebarUsername) sidebarUsername.textContent = (firstName + ' ' + lastName).trim();
-      if (sidebarUid) sidebarUid.textContent = 'UID: #' + user.id;
+      if (sidebarUid) sidebarUid.textContent = 'UID: #' + userData.id;
     } else {
       if (userAvatar) userAvatar.textContent = 'AK';
     }
@@ -533,29 +543,32 @@
     updateBalanceDisplay();
   }
 
-  // Connect via Telegram WebApp
+  // Connect via Telegram WebApp or Redirect
   if (connectBtn) {
     connectBtn.addEventListener('click', () => {
-      connectBtn.textContent = 'Connecting…';
-      connectBtn.disabled = true;
+      // If running inside the Telegram App, connect instantly
+      if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        connectBtn.textContent = 'Connecting…';
+        connectBtn.disabled = true;
+        setTimeout(() => {
+          isConnected = true;
+          localStorage.setItem('isConnected', 'true');
+          
+          if (userBalance === 0) {
+            userBalance = 500.00;
+            localStorage.setItem('userBalance', userBalance);
+          }
 
-      // Use a short timeout to simulate the network request or instantly connect if Telegram API is present
-      setTimeout(() => {
-        isConnected = true;
-        localStorage.setItem('isConnected', 'true');
-        
-        if (userBalance === 0) {
-          userBalance = 500.00;
-          localStorage.setItem('userBalance', userBalance);
-        }
+          if (headerPreConnect) headerPreConnect.classList.add('hidden');
+          if (headerPostConnect) headerPostConnect.classList.remove('hidden');
 
-        // Swap header states
-        if (headerPreConnect) headerPreConnect.classList.add('hidden');
-        if (headerPostConnect) headerPostConnect.classList.remove('hidden');
-
-        updateUserDataFromTelegram();
-        updateBalanceDisplay();
-      }, tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? 300 : 1200);
+          updateUserDataFromTelegram();
+          updateBalanceDisplay();
+        }, 300);
+      } else {
+        // Not in Telegram App -> Redirect directly to Telegram
+        window.location.href = 'https://t.me/VeloxMiniApp_Bot/app';
+      }
     });
   }
 
@@ -599,6 +612,7 @@
       profileDropdown.classList.add('hidden');
       isConnected = false;
       localStorage.setItem('isConnected', 'false');
+      localStorage.removeItem('webTgUser');
       
       if (headerPostConnect) headerPostConnect.classList.add('hidden');
       if (headerPreConnect) headerPreConnect.classList.remove('hidden');
