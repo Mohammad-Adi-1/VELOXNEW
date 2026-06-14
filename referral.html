@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Velox — Refer & Earn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800;900&display=swap" rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
+  <style>
+    .referral-container {
+      padding: 15px 20px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      width: fit-content;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+    .referral-card {
+      background: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 15px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+      min-height: 0;
+    }
+    
+    .refer-win-section {
+      flex: 7;
+    }
+
+    .referral-card h2 {
+      color: #f44786;
+      font-size: clamp(16px, 3vh, 20px);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .referral-desc {
+      font-size: clamp(11px, 2vh, 14px);
+      color: rgba(255,255,255,0.8);
+      line-height: 1.3;
+    }
+
+    .ref-code-box {
+      background: rgba(0,0,0,0.5);
+      border: 1px dashed rgba(255,255,255,0.3);
+      padding: 10px 15px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: clamp(18px, 4vh, 24px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .ref-code-box button {
+      background: #f44786;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .rewards-section {
+      flex: 3;
+      background: linear-gradient(145deg, rgba(46,134,222,0.15), rgba(20,20,20,0.7));
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .input-group input {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(12px, 2.5vh, 15px);
+      min-width: 0;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .input-group button {
+      background: #2E86DE;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0 15px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .input-group button:hover {
+      background: #185FA5;
+    }
+    
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    
+    .stat-box {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .stat-val {
+      font-size: clamp(16px, 3vh, 20px);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    
+    .stat-label {
+      font-size: clamp(9px, 1.5vh, 11px);
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- App Shell -->
+  <div class="app-shell">
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-overlay"></div>
+      <div class="header-left">
+        <span class="brand-name">VELOX</span>
+      </div>
+      <div class="header-actions" id="headerPreConnect">
+        <button class="connect-btn demo-btn" id="demoConnectBtn" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; margin-right: 8px;">
+          <i class="ti ti-coin"></i> Demo
+        </button>
+        <button class="connect-btn" id="connectBtn">
+          <i class="ti ti-brand-telegram"></i> Connect
+        </button>
+      </div>
+      <div class="header-actions header-connected hidden" id="headerPostConnect">
+        <button class="balance-btn" id="balanceBtn">
+          <i class="ti ti-plus"></i>
+          <span id="balanceAmount">0.00</span>
+          <span class="balance-label">USDT</span>
+        </button>
+        <div class="avatar" id="userAvatar">AK</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="app-content">
+      <div class="referral-container">
+        
+        <a href="index.html" class="back-btn">
+          <i class="ti ti-arrow-left"></i> Back to Home
+        </a>
+
+        <!-- How it works / Your code -->
+        <div class="referral-card refer-win-section">
+          <h2><i class="ti ti-users"></i> Refer & Earn</h2>
+          <p class="referral-desc">
+            Invite your friends to Velox and earn rewards! When someone uses your unique referral code in their rewards section, <strong>you instantly earn $2 of USDT</strong>.
+          </p>
+          
+          <div class="stats-row">
+            <div class="stat-box">
+              <div class="stat-val">0</div>
+              <div class="stat-label">Friends Invited</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val">$0.00</div>
+              <div class="stat-label">USDT Earned</div>
+            </div>
+          </div>
+
+          <p class="referral-desc" style="margin-top: 10px;"><strong>Your Referral Code:</strong></p>
+          <div class="ref-code-box">
+            <span id="myRefCode">VELOX-7A9B</span>
+            <button id="copyRefBtn"><i class="ti ti-copy"></i> Copy</button>
+          </div>
+        </div>
+
+        <!-- Rewards Section -->
+        <div class="referral-card rewards-section">
+          <h2 style="color: #33A0FD;"><i class="ti ti-gift"></i> Rewards Section</h2>
+          <p class="referral-desc">
+            Were you invited by a friend? Enter their referral code below to link your accounts and grant them $2 of USDT!
+          </p>
+          
+          <div class="input-group">
+            <input type="text" id="referralInput" placeholder="Enter code (e.g. VELOX-XXXX)" />
+            <button id="redeemRefBtn">Redeem</button>
+          </div>
+          <p id="redeemMessage" style="font-size: 13px; margin-top: 5px; font-weight: 600;"></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyRefBtn = document.getElementById('copyRefBtn');
+      const myRefCode = document.getElementById('myRefCode');
+      const redeemRefBtn = document.getElementById('redeemRefBtn');
+      const referralInput = document.getElementById('referralInput');
+      const redeemMessage = document.getElementById('redeemMessage');
+
+      if (copyRefBtn) {
+        copyRefBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(myRefCode.textContent).then(() => {
+            const origText = copyRefBtn.innerHTML;
+            copyRefBtn.innerHTML = '<i class="ti ti-check"></i> Copied!';
+            copyRefBtn.style.background = '#14784a';
+            setTimeout(() => {
+              copyRefBtn.innerHTML = origText;
+              copyRefBtn.style.background = '#f44786';
+            }, 2000);
+          });
+        });
+      }
+
+      if (redeemRefBtn) {
+        redeemRefBtn.addEventListener('click', () => {
+          const code = referralInput.value.trim().toUpperCase();
+          if (code === '') {
+            redeemMessage.textContent = 'Please enter a valid code.';
+            redeemMessage.style.color = '#ff4757';
+            return;
+          }
+          if (code === myRefCode.textContent) {
+            redeemMessage.textContent = 'You cannot use your own code.';
+            redeemMessage.style.color = '#ff4757';
+            return;
+          }
+          
+          // Simulate redeeming
+          redeemMessage.textContent = 'Redeeming...';
+          redeemMessage.style.color = '#33A0FD';
+          redeemRefBtn.disabled = true;
+          
+          setTimeout(() => {
+            redeemMessage.textContent = 'Success! You have used the code. Your friend earned $2 USDT!';
+            redeemMessage.style.color = '#2ed573';
+            referralInput.value = '';
+            redeemRefBtn.disabled = false;
+          }, 1000);
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

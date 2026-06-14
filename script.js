@@ -73,7 +73,7 @@
       ctx.closePath();
 
       // Slice fill
-      ctx.fillStyle = i % 2 === 0 ? '#ffffff' : '#f5f5f5';
+      ctx.fillStyle = '#e0daa3ff';
       ctx.fill();
 
       // Reset alpha
@@ -96,7 +96,7 @@
       ctx.translate(shapeR, 0);
       ctx.rotate(-(currentAngle + midAngle));
 
-      ctx.strokeStyle = '#ff0000';
+      ctx.strokeStyle = '#ff004cff';
       ctx.lineWidth = 10;
       ctx.fillStyle = 'rgba(0,0,0,0)';
       ctx.shadowColor = 'transparent';
@@ -422,6 +422,19 @@
     sidebarOverlay.addEventListener('click', closeSidebar);
   }
 
+  // Sidebar Navigation Logic
+  const sidebarNavItems = document.querySelectorAll('.sidebar-nav-item');
+  sidebarNavItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.dataset.page;
+      if (page === 'refer') {
+        window.location.href = 'referral.html';
+      } else {
+        alert(page.charAt(0).toUpperCase() + page.slice(1) + ' coming soon!');
+      }
+    });
+  });
+
   // ══════════════════════════════════════
   // EVENT LISTENERS
   // ══════════════════════════════════════
@@ -505,6 +518,33 @@
   const customWalletModal = document.getElementById('customWalletModal');
   const closeWalletModal = document.getElementById('closeWalletModal');
   const simConnectTgWalletBtn = document.getElementById('simConnectTgWalletBtn');
+
+  const demoConnectBtn = document.getElementById('demoConnectBtn');
+  if (demoConnectBtn) {
+    demoConnectBtn.addEventListener('click', () => {
+      isConnected = true;
+      localStorage.setItem('isConnected', 'true');
+      
+      if (userAvatar) userAvatar.innerHTML = '<i class="ti ti-coin"></i>';
+      
+      const sidebarAvatar = document.getElementById('sidebarAvatar');
+      const sidebarUsername = document.querySelector('.sidebar-username');
+      const sidebarUid = document.querySelector('.sidebar-uid');
+      
+      if (sidebarAvatar) sidebarAvatar.innerHTML = '<i class="ti ti-coin"></i>';
+      if (sidebarUsername) sidebarUsername.textContent = 'Demo Player';
+      if (sidebarUid) sidebarUid.textContent = 'Demo Mode';
+
+      if (headerPreConnect) headerPreConnect.classList.add('hidden');
+      if (headerPostConnect) headerPostConnect.classList.remove('hidden');
+
+      if (userBalance === 0) {
+        userBalance = 1000.00;
+        localStorage.setItem('userBalance', userBalance);
+      }
+      updateBalanceDisplay();
+    });
+  }
 
   if (closeWalletModal) {
     closeWalletModal.addEventListener('click', () => {
