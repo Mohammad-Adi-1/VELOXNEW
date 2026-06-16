@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Velox — Blackjack</title>
+  <meta name="description" content="Play Blackjack on Velox — the premium crypto betting mini-app on Telegram." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="blackjack.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* Dark cinematic overrides for blackjack page */
+    .app-shell { background: #020b18 !important; }
+    .app-header { background: #020b18 !important; }
+    .brand-name { color: #ffffff !important; }
+    .connect-btn, .balance-btn, .avatar {
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+    .balance-btn i { color: #ffffff !important; }
+    .bet-config-label { color: #ffffff !important; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-overlay"></div>
+      <div class="header-left">
+        <span class="brand-name">VELOX</span>
+      </div>
+      <div class="header-actions" id="headerPreConnect">
+        <button class="connect-btn demo-btn" id="demoConnectBtn" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; margin-right: 8px;">
+          <i class="ti ti-coin"></i> Demo
+        </button>
+        <button class="connect-btn" id="connectBtn">
+          <i class="ti ti-brand-telegram"></i> Connect
+        </button>
+      </div>
+      <div class="header-actions header-connected hidden" id="headerPostConnect">
+        <button class="balance-btn" id="balanceBtn">
+          <i class="ti ti-plus"></i>
+          <span id="balanceAmount">0.00</span>
+          <span class="balance-label">USDT</span>
+        </button>
+        <div class="avatar" id="userAvatar">AK</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="app-content" style="overflow-y: auto;">
+
+      <!-- Blackjack Table -->
+      <div class="bj-table" id="bjTable">
+
+        <!-- Felt surface glow -->
+        <div class="bj-felt-glow"></div>
+
+        <!-- Dealer Area -->
+        <div class="bj-dealer-area">
+          <div class="bj-hand-label">
+            <i class="ti ti-crown"></i> DEALER
+            <span class="bj-score" id="dealerScore"></span>
+          </div>
+          <div class="bj-hand" id="dealerHand">
+            <!-- Cards dealt by JS -->
+          </div>
+        </div>
+
+        <!-- Deck / Center Info -->
+        <div class="bj-center">
+          <div class="bj-deck" id="bjDeck">
+            <div class="bj-deck-card"></div>
+            <div class="bj-deck-card"></div>
+            <div class="bj-deck-card"></div>
+          </div>
+          <div class="bj-status" id="bjStatus">Place your bet to begin</div>
+        </div>
+
+        <!-- Player Area -->
+        <div class="bj-player-area">
+          <div class="bj-hand" id="playerHand">
+            <!-- Cards dealt by JS -->
+          </div>
+          <div class="bj-hand-label">
+            <i class="ti ti-user"></i> YOU
+            <span class="bj-score" id="playerScore"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+      <div class="bj-controls-container">
+
+        <!-- Action Buttons (shown during play) -->
+        <div class="bj-actions hidden" id="bjActions">
+          <button class="bj-action-btn bj-hit" id="bjHitBtn">
+            <i class="ti ti-plus"></i> HIT
+          </button>
+          <button class="bj-action-btn bj-stand" id="bjStandBtn">
+            <i class="ti ti-hand-stop"></i> STAND
+          </button>
+          <button class="bj-action-btn bj-double" id="bjDoubleBtn">
+            <i class="ti ti-arrows-double-se-nw"></i> DOUBLE
+          </button>
+        </div>
+
+        <!-- Betting Panel (shown before play) -->
+        <div class="bj-bet-panel" id="bjBetPanel">
+          <div class="front-combined-box" style="padding: 14px;">
+            <div class="bet-config-section">
+              <h4 class="bet-config-label">Blackjack — Bet & Play</h4>
+              <div class="bet-tabs" id="bjBetTabs">
+                <button class="bet-tab active" data-value="1">$1</button>
+                <button class="bet-tab" data-value="5">$5</button>
+                <button class="bet-tab" data-value="25">$25</button>
+                <button class="bet-tab" data-value="100">$100</button>
+                <button class="bet-tab" data-value="500">$500</button>
+                <button class="bet-tab" data-value="1000">$1000</button>
+              </div>
+            </div>
+            <button class="main-play-btn" id="bjDealBtn" style="margin-top: 12px;">
+              <i class="ti ti-cards"></i> DEAL
+            </button>
+          </div>
+        </div>
+
+        <!-- New Round Button (shown after round ends) -->
+        <div class="bj-new-round hidden" id="bjNewRound">
+          <button class="main-play-btn" id="bjNewRoundBtn">
+            <i class="ti ti-refresh"></i> NEW HAND
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="blackjack.js" defer></script>
+</body>
+</html>

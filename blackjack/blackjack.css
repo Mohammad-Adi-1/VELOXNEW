@@ -1,0 +1,502 @@
+/* ══════════════════════════════════════
+   BLACKJACK GAME STYLES
+   ══════════════════════════════════════ */
+
+/* ── Table ── */
+.bj-table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 380px;
+  padding: 18px 12px 10px;
+  background: radial-gradient(ellipse at 50% 55%, #05022e 0%, #020116 55%, #010f22 100%);
+  border-bottom: 3px solid rgba(255, 215, 0, 0.15);
+  overflow: hidden;
+}
+
+.bj-felt-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 320px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Hand Areas ── */
+.bj-dealer-area,
+.bj-player-area {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.bj-hand-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bj-hand-label i {
+  font-size: 16px;
+  color: #ffd700;
+}
+
+.bj-score {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-left: 6px;
+  min-width: 32px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.bj-score:empty {
+  display: none;
+}
+
+/* ── Card Hand Container ── */
+.bj-hand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  gap: 0;
+  position: relative;
+  perspective: 800px;
+}
+
+/* ── Individual Cards ── */
+.bj-card {
+  position: relative;
+  width: 96px;
+  height: 136px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  cursor: default;
+  animation: bjCardDeal 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  margin-left: -24px;
+}
+
+.bj-card:first-child {
+  margin-left: 0;
+}
+
+@keyframes bjCardDeal {
+  from {
+    opacity: 0;
+    transform: translateY(-60px) rotateZ(-8deg) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateZ(0) scale(1);
+  }
+}
+
+/* Card face (front) */
+.bj-card-front {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35),
+              inset 0 0 0 2px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  padding: 4px;
+  z-index: 2;
+}
+
+/* Card back */
+.bj-card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6e1d1a 0%, #380909 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Face-down: hide front, show back */
+.bj-card.face-down .bj-card-front {
+  visibility: hidden;
+}
+
+.bj-card.face-down .bj-card-back {
+  z-index: 3;
+}
+
+.bj-card-back::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  background: repeating-conic-gradient(
+    rgba(255, 215, 0, 0.06) 0% 25%,
+    transparent 0% 50%
+  ) 0 0 / 10px 10px;
+}
+
+.bj-card-back::after {
+  content: '♠';
+  font-size: 36px;
+  color: rgba(255, 215, 0, 0.4);
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.2);
+}
+
+/* Reveal animation for dealer's hidden card */
+.bj-card.face-down.reveal .bj-card-front {
+  visibility: visible;
+  animation: bjRevealFront 0.4s ease forwards;
+}
+
+.bj-card.face-down.reveal .bj-card-back {
+  animation: bjRevealBack 0.4s ease forwards;
+}
+
+@keyframes bjRevealFront {
+  0% { opacity: 0; transform: scaleX(0); }
+  50% { opacity: 0; transform: scaleX(0); }
+  51% { opacity: 1; }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes bjRevealBack {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(0); }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+
+/* ── Card Content Layout ── */
+.bj-card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  gap: 0;
+}
+
+.bj-card-corner.top-left {
+  top: 4px;
+  left: 5px;
+}
+
+.bj-card-corner.bottom-right {
+  bottom: 4px;
+  right: 5px;
+  transform: rotate(180deg);
+}
+
+.bj-card-rank {
+  font-family: 'DM Sans', Georgia, serif;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.bj-card-suit-small {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.bj-card-center-suit {
+  font-size: 48px;
+  line-height: 1;
+}
+
+/* Suit colors */
+.bj-card.suit-hearts .bj-card-rank,
+.bj-card.suit-hearts .bj-card-suit-small,
+.bj-card.suit-hearts .bj-card-center-suit,
+.bj-card.suit-diamonds .bj-card-rank,
+.bj-card.suit-diamonds .bj-card-suit-small,
+.bj-card.suit-diamonds .bj-card-center-suit {
+  color: #dc2626;
+}
+
+.bj-card.suit-spades .bj-card-rank,
+.bj-card.suit-spades .bj-card-suit-small,
+.bj-card.suit-spades .bj-card-center-suit,
+.bj-card.suit-clubs .bj-card-rank,
+.bj-card.suit-clubs .bj-card-suit-small,
+.bj-card.suit-clubs .bj-card-center-suit {
+  color: #1a1a2e;
+}
+
+/* Face card image overlay */
+.bj-card-face-img {
+  position: absolute;
+  inset: 14px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ── Center Deck ── */
+.bj-center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.bj-deck {
+  position: relative;
+  width: 84px;
+  height: 120px;
+}
+
+.bj-deck-card {
+  position: absolute;
+  width: 84px;
+  height: 120px;
+  border-radius: 7px;
+ background: linear-gradient(135deg, #6e1d1a 0%, #380909 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+.bj-deck-card:nth-child(1) { top: 0; left: 0; }
+.bj-deck-card:nth-child(2) { top: -3px; left: 3px; }
+.bj-deck-card:nth-child(3) { top: -6px; left: 6px; }
+
+.bj-status {
+  font-family: 'Game Of Squids', 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+  min-height: 24px;
+  letter-spacing: 1px;
+}
+
+.bj-status.win {
+  color: #4ade80;
+  text-shadow: 0 0 14px rgba(74, 222, 128, 0.5);
+  animation: bjPulse 0.5s ease;
+}
+
+.bj-status.lose {
+  color: #f44786;
+  text-shadow: 0 0 14px rgba(244, 71, 134, 0.5);
+}
+
+.bj-status.push {
+  color: #fbbf24;
+  text-shadow: 0 0 14px rgba(251, 191, 36, 0.5);
+}
+
+.bj-status.blackjack {
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  animation: bjPulse 0.5s ease;
+  font-size: 20px;
+}
+
+@keyframes bjPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+/* ── Controls Container ── */
+.bj-controls-container {
+  width: 100%;
+  background: #020b18;
+  padding: 10px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Action Buttons ── */
+.bj-actions {
+  display: flex;
+  gap: 10px;
+  width: 94%;
+  max-width: 440px;
+  margin: 0 auto 10px;
+}
+
+.bj-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bj-action-btn i { font-size: 18px; }
+
+.bj-hit {
+  background: linear-gradient(135deg, #098f1f, #0b2401);
+  color: #ffffff;
+  border-color: #fff243;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
+}
+
+.bj-hit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.45);
+}
+
+.bj-hit:active { transform: scale(0.96); }
+
+.bj-stand {
+  background: linear-gradient(135deg, #691010, #2e0404);
+  color: #ffffff;
+  border-color: #fff243;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+
+.bj-stand:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
+}
+
+.bj-stand:active { transform: scale(0.96); }
+
+.bj-double {
+  background: linear-gradient(135deg, #050a52, #010224);
+  color: #ffffff;
+  border-color: #fff243;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+}
+
+.bj-double:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+}
+
+.bj-double:active { transform: scale(0.96); }
+
+.bj-action-btn.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ── Bet Panel ── */
+.bj-bet-panel {
+  width: 94%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.bj-bet-panel .front-combined-box {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background-color: #01061a;
+}
+
+/* ── New Round ── */
+.bj-new-round {
+  width: 94%;
+  max-width: 440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Utilities ── */
+.hidden {
+  display: none !important;
+}
+
+/* ── Responsive adjustments ── */
+@media (max-height: 680px) {
+  .bj-table {
+    min-height: 300px;
+    padding: 12px 10px 6px;
+  }
+  .bj-card {
+    width: 60px;
+    height: 88px;
+  }
+  .bj-card-center-suit { font-size: 28px; }
+  .bj-card-rank { font-size: 13px; }
+  .bj-deck { width: 54px; height: 78px; }
+  .bj-deck-card { width: 54px; height: 78px; }
+}
+
+@media (max-width: 360px) {
+  .bj-card {
+    width: 58px;
+    height: 84px;
+    margin-left: -22px;
+  }
+  .bj-card:first-child { margin-left: 0; }
+  .bj-action-btn { font-size: 12px; padding: 12px 0; }
+}
+
+/* ── Card hover in player hand ── */
+.bj-player-area .bj-card {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-left 0.3s ease,
+              margin-top 0.2s ease;
+}
+
+.bj-player-area .bj-card:hover {
+  margin-top: -6px;
+}
+
+/* ── Bust/Blackjack card glow ── */
+.bj-card.bust-glow .bj-card-front {
+  box-shadow: 0 0 12px rgba(244, 71, 134, 0.6),
+              inset 0 0 0 2px rgba(244, 71, 134, 0.3);
+}
+
+.bj-card.win-glow .bj-card-front {
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.5),
+              inset 0 0 0 2px rgba(74, 222, 128, 0.2);
+}
+
+.bj-card.blackjack-glow .bj-card-front {
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.6),
+              inset 0 0 0 2px rgba(255, 215, 0, 0.3);
+}

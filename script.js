@@ -1436,8 +1436,8 @@
       online: "102,394"
     },
     {
-      title: "Card Flip",
-      desc: "Put your memory to the ultimate test in this high-stakes card flipping challenge! Match pairs of identical cards to uncover hidden bonuses and multiply your daily earnings. Stay sharp, memorize patterns, and flip your way to victory!",
+      title: "Blackjack",
+      desc: "Take on the dealer in the world's most iconic card game! Get dealt two cards, aim for 21, and decide when to hit, stand, or double down. Beat the house with skill, strategy, and a touch of luck to win big USDT payouts!",
       online: "45,123"
     },
     {
@@ -1533,9 +1533,11 @@
       const titleEl = card.querySelector('.game-card-title');
       if (card.classList.contains('active')) {
         if (titleEl && titleEl.textContent.trim() === 'Spin & Win') {
-          window.location.href = 'spingame.html';
+          window.location.href = 'spingame/';
         } else if (titleEl && titleEl.textContent.trim() === 'Dice Roll') {
-          window.location.href = 'dicegame.html';
+          window.location.href = 'dicegame/';
+        } else if (titleEl && titleEl.textContent.trim() === 'Blackjack') {
+          window.location.href = 'blackjack/';
         }
       } else {
         goTo(i);
