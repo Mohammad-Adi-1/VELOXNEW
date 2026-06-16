@@ -767,7 +767,7 @@ h1, h2, h3, h4, h5, h6 {
 .vp4-wheel {
   padding: 0 !important;
   width: 100% !important;
-  background: #000000 !important;
+  background: #020b18 !important;
 }
 
 /* ── Live Ticker ── */
@@ -824,7 +824,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Bottom Action Container ── */
 .bottom-action-container {
   width: 100%;
-  background: #ffffff00;
+  background: #020b18;
   padding: 0;
   margin-top: 0;
   display: flex;
@@ -893,7 +893,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   border: 1px solid #463c3c3d;
   border-radius: 14px;
-  background: #242323bd;
+  background: #020b18;
   gap: 5px;
   padding: 10px;
   overflow: hidden;
@@ -907,7 +907,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  border: solid 1px rgba(0, 0, 0, 0);
+  border: solid 1px rgba(0, 0, 0, 0.26);
   border-radius: 15px;
   background-color:#0000005e;
   width: 100%;
@@ -956,8 +956,8 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .team-tab {
-  background: rgb(255, 255, 255);
-  color: #000000;
+  background: #0A192F;
+  color: #fffdfd;
   border: 1px solid #000000;
   border-radius: 12px;
   padding: 0;
@@ -978,7 +978,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .team-tab:hover, .team-tab.active {
-  background: #ff1044;
+  background: rgb(58, 25, 3);
   color: #ffffff;
   border-color: #000000;
 }
@@ -994,9 +994,9 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   padding: 3px 10px;
-  border: solid 1px rgb(0, 0, 0);
+  border: solid 1px rgba(0, 0, 0, 0.329);
   border-radius: 15px;
-  background-color:#0c0c0c7e;
+  background-color:#0000005e;
 }
 
 .bet-config-section {
@@ -1187,8 +1187,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #000000;
-  background: #fffefede;
+  color: #ffffff;
+  background: #0A192F;
   border: 1px solid #000000;
   border-radius: 10px;
   padding: 7px 4px;
@@ -1203,7 +1203,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bet-tab.active {
-  background: #ff1044;
+  background: rgb(58, 25, 3);
   border-color: #000000;
   color: #ffffff;
 }
@@ -1241,7 +1241,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 70%;
   max-width: 340px;
   margin : 3px auto auto auto;
-  background: #49fd39;
+  background: gold;
   color: #ffffff;
   border : solid 1px rgb(85, 82, 82);
   border-radius: 15px;
@@ -1647,7 +1647,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 12px;
   margin-right: 12px;
   border-radius: 15px;
-  background-color: rgba(36, 32, 32, 0.849);
+  background: #020b18;
   border: 2px solid #0808083a; /* Marked the borders as requested */
   overflow: hidden;
 }
