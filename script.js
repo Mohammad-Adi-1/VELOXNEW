@@ -1363,34 +1363,42 @@
   function renderCards() {
     const rect = carousel.getBoundingClientRect();
     const cx = rect.width / 2;
-    const cy = rect.height + ORBIT_RADIUS * 0.15;
+    const cy = rect.height / 2;
+
+    const continuousIndex = currentAngle / ANGLE_STEP;
 
     cards.forEach((card, i) => {
-      // Each card sits at a fixed position on the ring, offset by current rotation
-      const angle = (-Math.PI / 2) + i * ANGLE_STEP - currentAngle;
+      // Handle wrapping for a continuous horizontal scroll using proper modulo math
+      let offset = ((i - continuousIndex) % N + N) % N;
+      if (offset > N / 2) offset -= N;
 
-      const x = cx + Math.cos(angle) * ORBIT_RADIUS;
-      const y = cy + Math.sin(angle) * ORBIT_RADIUS;
+      const spacing = 280; // horizontal spacing between cards
+      const x = cx + offset * spacing;
+      const y = cy;
 
-      // Size: active card is bigger
+      // Dimensions: active card is bigger, using vh for height
       const isActive = i === currentIndex;
-      const size = isActive ? 250 : 180;
+      const vh = window.innerHeight / 100;
+      const cardWidth = isActive ? 300 : 260;
+      const cardHeight = 60 * vh;
 
-      card.style.left = (x - size / 2) + 'px';
-      card.style.top = (y - size / 2) + 'px';
-      card.style.width = size + 'px';
-      card.style.height = size + 'px';
+      card.style.left = (x - cardWidth / 2) + 'px';
+      card.style.top = (y - cardHeight / 2) + 'px';
+      card.style.width = cardWidth + 'px';
+      card.style.height = cardHeight + 'px';
 
-      // Determine how far this card is from the top of the arc
-      // Normalize angle to [-π, π]
-      let normAngle = angle % (2 * Math.PI);
-      if (normAngle > Math.PI) normAngle -= 2 * Math.PI;
-      if (normAngle < -Math.PI) normAngle += 2 * Math.PI;
-      const distFromTop = Math.abs(normAngle + Math.PI / 2);
-
-      // Opacity: full at top, fading as it goes around
-      const opacity = Math.max(0, 1 - distFromTop / (Math.PI * 0.6));
+      // Opacity: full in center, neighbouring cards stay visible
+      const distFromCenter = Math.abs(offset);
+      const opacity = Math.max(0.15, 1 - distFromCenter * 0.3);
       card.style.opacity = opacity;
+
+      // Y-axis tilt: unfocused cards angle inward, active card stays flat
+      if (isActive) {
+        card.style.transform = 'perspective(800px) rotateY(0deg)';
+      } else {
+        const tiltAngle = offset < 0 ? 15 : -15; // left cards tilt right, right cards tilt left
+        card.style.transform = `perspective(800px) rotateY(${tiltAngle}deg)`;
+      }
 
       if (isActive) {
         card.classList.add('active');
@@ -1398,13 +1406,7 @@
         card.classList.remove('active');
       }
 
-      // Hide cards on the bottom half entirely
-      if (normAngle > 0.2 && normAngle < Math.PI - 0.2) {
-        card.style.opacity = '0';
-        card.style.pointerEvents = 'none';
-      } else {
-        card.style.pointerEvents = '';
-      }
+      card.style.pointerEvents = opacity < 0.2 ? 'none' : '';
     });
 
     // Update dots

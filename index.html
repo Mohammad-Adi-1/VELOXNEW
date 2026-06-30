@@ -134,42 +134,6 @@
           <span></span>
         </div>
 
-
-        
-
-
-        <div class="hero-image-stack">
-          <img class="hero-image-bg" src="assets/salesman.png" alt="Salesman">
-          <img class="hero-image" src="assets/maskmanog.png" alt="Hero Image">
-        </div>
-
-
-
-
-        <!-- Hero Body: text grouped -->
-        <div class="hero-body">
-          <div class="hero-text">
-            <h1 class="hero-heading">Season 1<br>Welcomes YOU</h1>
-            <p class="hero-sub">Join thousands of players and turn every spin into real USDT rewards — instantly.</p>
-            <button class="hero-action-btn" id="enterSeasonBtn">Enter the Season</button>
-          </div>
-        </div>
-
-
-
-      </div>
-
-
-
-      <!-- Viewport 3: Game Selection -->
-      <div class="viewport-screen vp3-games">
-        
-        <!-- Dynamic Game Info Display -->
-        <div class="active-game-info" id="activeGameInfo">
-          <h3 id="displayGameTitle">Spin & Win</h3>
-          <p id="displayGameDesc">Experience the thrill of the ultimate wheel of fortune! Spin daily for a chance to win massive rewards, exclusive tokens, and rare in-game items. Test your luck, build your fortune, and see where the wheel takes you today!</p>
-        </div>
-
         <div class="circular-carousel-wrapper">
           <div class="online-players-indicator" id="onlinePlayersIndicator">
             <span class="live-dot"></span>
@@ -179,29 +143,29 @@
             <!-- Visual orbit ring -->
             <div class="orbit-ring"></div>
             <!-- Game cards (positioned by JS on the orbit) -->
-            <div class="game-card" data-index="0">
-              <div class="game-card-content">
+            <div class="game-card" data-index="0" style="background: url('assets/spincardbg.png') center/cover no-repeat;">
+              <div class="game-card-content" style="visibility: hidden;">
                 <div class="game-card-icon"><i class="ti ti-device-gamepad"></i></div>
                 <h3 class="game-card-title">Spin & Win</h3>
                 <p class="game-card-desc">Play Now</p>
               </div>
             </div>
-            <div class="game-card" data-index="1">
-              <div class="game-card-content">
+            <div class="game-card" data-index="1" style="background: url('assets/blackjackcard3.png') center/cover no-repeat;">
+              <div class="game-card-content" style="visibility: hidden;">
                 <div class="game-card-icon"><i class="ti ti-playing-cards"></i></div>
                 <h3 class="game-card-title">Blackjack</h3>
                 <p class="game-card-desc">Play Now</p>
               </div>
             </div>
-            <div class="game-card" data-index="2">
-              <div class="game-card-content">
+            <div class="game-card" data-index="2" style="background: url('assets/dicerollcard.png') center/cover no-repeat;">
+              <div class="game-card-content" style="visibility: hidden;">
                 <div class="game-card-icon"><i class="ti ti-dice-5"></i></div>
                 <h3 class="game-card-title">Dice Roll</h3>
                 <p class="game-card-desc">Play Now</p>
               </div>
             </div>
-            <div class="game-card" data-index="3">
-              <div class="game-card-content">
+            <div class="game-card" data-index="3" style="background: url('assets/spincardbg.png') center/cover no-repeat;">
+              <div class="game-card-content" style="visibility: hidden;">
                 <div class="game-card-icon"><i class="ti ti-sword"></i></div>
                 <h3 class="game-card-title">Battle</h3>
                 <p class="game-card-desc">Coming Soon</p>
@@ -215,6 +179,13 @@
             <span class="carousel-dot" data-index="3"></span>
           </div>
         </div>
+
+      </div>
+
+
+
+      <!-- Viewport 3: (empty) -->
+      <div class="viewport-screen vp3-games">
       </div>
 
 

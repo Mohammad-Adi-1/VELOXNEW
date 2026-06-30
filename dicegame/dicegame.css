@@ -7,18 +7,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 0;
-  min-height: 250px;
+  padding: 10px 0;
+  flex-shrink: 0;
 }
 
 .dice-scene {
   width: 200px;
-  height: 100px;
+  height: 80px;
   perspective: 600px;
   display: flex;
   justify-content: center;
   gap: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .dice {
@@ -78,11 +78,11 @@
 
 .dice-result {
   font-family: 'Game Of Squids', 'DM Sans', sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   color: #fff;
   text-shadow: 0 0 10px rgba(244, 71, 134, 0.6);
-  margin-top: 10px;
-  min-height: 30px;
+  margin-top: 4px;
+  min-height: 26px;
 }
 
 /* Bet Grid */
@@ -92,9 +92,7 @@
   gap: 8px;
 }
 
-.dice-bet-grid .dice-bet-btn:last-child {
-  grid-column: span 6; /* Center the last odd button if needed, but 11 buttons... wait. 11 buttons in 6 cols is 6 + 5. Let's adjust to auto-fit */
-}
+
 
 @media (max-width: 480px) {
   .dice-bet-grid {
@@ -102,12 +100,16 @@
   }
 }
 
-.dice-bet-btn, .dice-bet-type-btn {
+/* Number bet buttons (2-12) — square tiles */
+.dice-bet-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #fff;
-  border-radius: 8px;
-  padding: 10px 0;
+  border-radius: 4px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'DM Sans', sans-serif;
   font-weight: 700;
   font-size: 14px;
@@ -115,7 +117,18 @@
   transition: all 0.2s ease;
 }
 
+/* Even/Odd type buttons — wider rectangles */
 .dice-bet-type-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 4px;
+  padding: 8px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
   width: 48%;
 }
 
@@ -129,4 +142,40 @@
   border-color: #f44786;
   color: #f44786;
   box-shadow: 0 0 10px rgba(244, 71, 134, 0.4);
+}
+
+/* ── Small screen compaction ── */
+@media (max-height: 700px) {
+  .dice-game-section {
+    padding: 6px 0;
+  }
+  .dice-scene {
+    height: 70px;
+    margin-bottom: 6px;
+  }
+  .dice, .dice-face {
+    width: 50px;
+    height: 50px;
+  }
+  .face-1 { transform: rotateY(0deg) translateZ(25px); }
+  .face-2 { transform: rotateY(180deg) translateZ(25px); }
+  .face-3 { transform: rotateY(90deg) translateZ(25px); }
+  .face-4 { transform: rotateY(-90deg) translateZ(25px); }
+  .face-5 { transform: rotateX(90deg) translateZ(25px); }
+  .face-6 { transform: rotateX(-90deg) translateZ(25px); }
+  .dice-result {
+    font-size: 16px;
+    min-height: 22px;
+    margin-top: 2px;
+  }
+  .dice-bet-btn {
+    font-size: 12px;
+  }
+  .dice-bet-type-btn {
+    padding: 6px 0;
+    font-size: 12px;
+  }
+  .dice-bet-grid {
+    gap: 6px;
+  }
 }
